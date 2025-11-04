@@ -1,0 +1,13 @@
+{
+  "name": "mll-lab-marketplace",
+  "owner": {
+    "name": "MLL Lab",
+    "email": "info@mll.com"
+  },
+  "metadata": {
+    "description": "Catalog of available plugins for Claude Code extensions at MLL",
+    "version": "1.0.0",
+    "homepage": "https://github.com/mll-lab/claude-plugin-marketplace"
+  },
+  "plugins": []
+}
