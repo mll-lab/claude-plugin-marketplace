@@ -38,9 +38,9 @@ Brief description of what your plugin does.
 
 ## Installation
 
-\`\`\`bash
+```bash
 /plugin install my-plugin@mll-lab-marketplace
-\`\`\`
+```
 
 ## Usage
 
