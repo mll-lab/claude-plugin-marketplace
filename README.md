@@ -28,7 +28,7 @@ Once the marketplace is added, you can browse and install available plugins:
 /plugin
 
 # Install a specific plugin
-/plugin install <plugin-name>@mll-lab-marketplace
+/plugin install <plugin-name>@mll
 ```
 
 ## 📦 Available Plugins
