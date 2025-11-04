@@ -39,7 +39,7 @@ Brief description of what your plugin does.
 ## Installation
 
 ```bash
-/plugin install my-plugin@mll-lab-marketplace
+/plugin install my-plugin@mll
 ```
 
 ## Usage
@@ -95,8 +95,8 @@ Update `.claude-plugin/marketplace.json` to include your plugin:
 
 2. **Test locally** (if possible):
    ```bash
-   /plugin marketplace add mll-lab/claude-plugin-marketplace
-   /plugin install my-plugin@mll-lab-marketplace
+   /plugin marketplace add mll/claude-plugin-marketplace
+   /plugin install my-plugin@mll
    ```
 
 ### Step 5: Submit Your Changes

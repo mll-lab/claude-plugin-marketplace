@@ -39,7 +39,7 @@ To verify the marketplace was added successfully:
 /plugin marketplace list
 ```
 
-You should see `mll-lab-marketplace` in the list of available marketplaces.
+You should see `mll` in the list of available marketplaces.
 
 ## Browsing Plugins
 
@@ -62,7 +62,7 @@ or
 To see only plugins from the MLL marketplace:
 
 ```bash
-/plugin list --marketplace mll-lab-marketplace
+/plugin list --marketplace mll
 ```
 
 ### View Plugin Details
@@ -70,7 +70,7 @@ To see only plugins from the MLL marketplace:
 To get detailed information about a specific plugin:
 
 ```bash
-/plugin info example-plugin@mll-lab-marketplace
+/plugin info example-plugin@mll
 ```
 
 ## Installing Plugins
@@ -80,7 +80,7 @@ To get detailed information about a specific plugin:
 To install a plugin from the MLL marketplace:
 
 ```bash
-/plugin install example-plugin@mll-lab-marketplace
+/plugin install example-plugin@mll
 ```
 
 ### Install Latest Version
@@ -88,7 +88,7 @@ To install a plugin from the MLL marketplace:
 By default, the latest version is installed. To explicitly specify a version:
 
 ```bash
-/plugin install example-plugin@mll-lab-marketplace@1.0.0
+/plugin install example-plugin@mll@1.0.0
 ```
 
 ### Verify Installation
@@ -130,7 +130,7 @@ To get help on a specific plugin's usage:
 To update a specific plugin to the latest version:
 
 ```bash
-/plugin update example-plugin@mll-lab-marketplace
+/plugin update example-plugin@mll
 ```
 
 ### Update All Plugins
@@ -164,7 +164,7 @@ To remove an installed plugin:
 To remove the entire marketplace (this doesn't uninstall already installed plugins):
 
 ```bash
-/plugin marketplace remove mll-lab-marketplace
+/plugin marketplace remove mll
 ```
 
 ## Troubleshooting
