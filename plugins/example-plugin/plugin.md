@@ -18,13 +18,13 @@ This command provides a friendly greeting. If you provide a name, it will person
 ```
 /example-hello
 ```
-Output: "Hello! Welcome to the MLL Lab Claude Code Plugin Marketplace!"
+Output: "Hello! Welcome to the MLL Claude Code Plugin Marketplace!"
 
 ### Personalized Usage
 ```
 /example-hello Alice
 ```
-Output: "Hello, Alice! Welcome to the MLL Lab Claude Code Plugin Marketplace!"
+Output: "Hello, Alice! Welcome to the MLL Claude Code Plugin Marketplace!"
 
 ## Implementation
 
@@ -33,7 +33,7 @@ You are a friendly greeter assistant. When the user runs `/example-hello`, you s
 1. Check if a name parameter was provided
 2. If a name was provided, greet the user by name
 3. If no name was provided, give a general greeting
-4. Always include a welcoming message about the MLL Lab marketplace
+4. Always include a welcoming message about the MLL marketplace
 
 Be warm, friendly, and professional in your responses.
 

@@ -1,10 +1,11 @@
-# MLL Lab Claude Code Plugin Marketplace
+# MLL Claude Code Plugin Marketplace
 
-Catalog of available plugins for Claude Code extensions at MLL Lab.
+Catalog of available plugins for Claude Code extensions at MLL.
 
 ## 📖 About
 
-This repository serves as a [Claude Code Plugin Marketplace](https://docs.claude.com/en/docs/claude-code/plugin-marketplaces) - a centralized catalog for discovering and installing Claude Code plugins within MLL Lab.
+This repository serves as a [Claude Code Plugin Marketplace](https://docs.claude.com/en/docs/claude-code/plugin-marketplaces).
+It is a centralized catalog for discovering and installing Claude Code plugins within MLL.
 
 ## 🚀 Quick Start
 
@@ -40,7 +41,7 @@ A demonstration plugin that shows the structure and usage of plugins in this mar
 - **Category**: general
 - **Description**: Provides a friendly greeting and demonstrates plugin structure
 
-More plugins will be added as they are developed by the MLL Lab team.
+More plugins will be added as they are developed by the MLL team.
 
 ## 🔧 Marketplace Structure
 
@@ -94,7 +95,7 @@ For more information about Claude Code plugin marketplaces, see the [official do
 
 ## 🤝 Contributing
 
-This marketplace is maintained by MLL Lab for internal use. If you're part of the MLL Lab team and want to contribute a plugin:
+This marketplace is maintained by MLL for internal use. If you're part of the MLL team and want to contribute a plugin:
 
 1. Fork this repository
 2. Add your plugin following the structure above
@@ -110,4 +111,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 - [Claude Code Documentation](https://docs.claude.com/en/docs/claude-code)
 - [Plugin Marketplace Documentation](https://docs.claude.com/en/docs/claude-code/plugin-marketplaces)
-- [MLL Lab GitHub](https://github.com/mll-lab)
+- [MLL GitHub](https://github.com/mll-lab)

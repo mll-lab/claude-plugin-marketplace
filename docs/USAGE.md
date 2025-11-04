@@ -1,6 +1,6 @@
-# Using the MLL Lab Claude Code Plugin Marketplace
+# Using the MLL Claude Code Plugin Marketplace
 
-This guide explains how to use the MLL Lab Claude Code Plugin Marketplace to discover and install plugins.
+This guide explains how to use the MLL Claude Code Plugin Marketplace to discover and install plugins.
 
 ## Table of Contents
 
@@ -18,12 +18,12 @@ This guide explains how to use the MLL Lab Claude Code Plugin Marketplace to dis
 Before using this marketplace, ensure you have:
 
 1. **Claude Code** installed on your system
-2. Access to the MLL Lab GitHub organization (for private repositories)
+2. Access to the MLL GitHub organization (for private repositories)
 3. Basic familiarity with Claude Code commands
 
 ## Adding the Marketplace
 
-To add the MLL Lab marketplace to your Claude Code installation:
+To add the MLL marketplace to your Claude Code installation:
 
 ```bash
 /plugin marketplace add mll-lab/claude-plugin-marketplace
@@ -59,7 +59,7 @@ or
 
 ### Filter by Marketplace
 
-To see only plugins from the MLL Lab marketplace:
+To see only plugins from the MLL marketplace:
 
 ```bash
 /plugin list --marketplace mll-lab-marketplace
@@ -77,7 +77,7 @@ To get detailed information about a specific plugin:
 
 ### Install a Specific Plugin
 
-To install a plugin from the MLL Lab marketplace:
+To install a plugin from the MLL marketplace:
 
 ```bash
 /plugin install example-plugin@mll-lab-marketplace
@@ -231,8 +231,8 @@ If you encounter bugs or have feature requests, report them to help improve the 
 - [Claude Code Documentation](https://docs.claude.com/en/docs/claude-code)
 - [Plugin Development Guide](https://docs.claude.com/en/docs/claude-code/plugins)
 - [Marketplace Documentation](https://docs.claude.com/en/docs/claude-code/plugin-marketplaces)
-- [MLL Lab GitHub](https://github.com/mll-lab)
+- [MLL GitHub](https://github.com/mll-lab)
 
 ---
 
-For questions or issues specific to the MLL Lab marketplace, please contact the MLL Lab development team.
+For questions or issues specific to the MLL marketplace, please contact the MLL development team.

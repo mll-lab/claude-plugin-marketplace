@@ -1,6 +1,6 @@
 # Plugins Directory
 
-This directory contains individual plugin implementations for the MLL Lab Claude Code Plugin Marketplace.
+This directory contains individual plugin implementations for the MLL Claude Code Plugin Marketplace.
 
 ## Structure
 
