@@ -30,7 +30,15 @@ Once the marketplace is added, you can browse and install available plugins:
 
 ## 📦 Available Plugins
 
-Currently, this marketplace is ready to host plugins for the MLL Lab team. Plugins will be listed here as they are added.
+### Example Plugin
+
+A demonstration plugin that shows the structure and usage of plugins in this marketplace.
+
+- **Command**: `/example-hello`
+- **Category**: general
+- **Description**: Provides a friendly greeting and demonstrates plugin structure
+
+More plugins will be added as they are developed by the MLL Lab team.
 
 ## 🔧 Marketplace Structure
 
@@ -89,6 +97,8 @@ This marketplace is maintained by MLL Lab for internal use. If you're part of th
 1. Fork this repository
 2. Add your plugin following the structure above
 3. Submit a pull request with your changes
+
+For detailed contribution guidelines, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## 📄 License
 

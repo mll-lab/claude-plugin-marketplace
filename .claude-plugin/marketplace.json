@@ -9,5 +9,18 @@
     "version": "1.0.0",
     "homepage": "https://github.com/mll-lab/claude-plugin-marketplace"
   },
-  "plugins": []
+  "plugins": [
+    {
+      "name": "example-plugin",
+      "description": "An example plugin demonstrating the structure and usage of plugins in the MLL Lab marketplace",
+      "version": "1.0.0",
+      "author": {
+        "name": "MLL Lab Team",
+        "email": "info@mll.com"
+      },
+      "source": "./plugins/example-plugin",
+      "category": "general",
+      "keywords": ["example", "demo", "template", "getting-started"]
+    }
+  ]
 }
