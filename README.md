@@ -85,8 +85,8 @@ For more information about Claude Code plugin marketplaces, see the [official do
 
 ## 🤝 Contributing
 
-This marketplace is maintained by MLL for internal use. If you're part of the MLL team and want to contribute a plugin:
-
+This marketplace is maintained by MLL for internal use.
+If you're part of the MLL team and want to contribute a plugin:
 1. Fork this repository
 2. Add your plugin following the structure above
 3. Submit a pull request with your changes
@@ -95,10 +95,4 @@ For detailed contribution guidelines, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🔗 Resources
-
-- [Claude Code Documentation](https://docs.claude.com/en/docs/claude-code)
-- [Plugin Marketplace Documentation](https://docs.claude.com/en/docs/claude-code/plugin-marketplaces)
-- [MLL GitHub](https://github.com/mll-lab)
+This project is licensed under the [MIT License](LICENSE).
