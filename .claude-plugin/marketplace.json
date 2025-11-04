@@ -11,14 +11,14 @@
   },
   "plugins": [
     {
-      "name": "example-plugin",
+      "name": "example",
       "description": "An example plugin demonstrating the structure and usage of plugins in the MLL marketplace",
       "version": "1.0.0",
       "author": {
         "name": "MLL Team",
         "email": "info@mll.com"
       },
-      "source": "./plugins/example-plugin",
+      "source": "./plugins/example",
       "category": "general",
       "keywords": ["example", "demo", "template", "getting-started"]
     }

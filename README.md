@@ -68,7 +68,7 @@ The `.claude-plugin/marketplace.json` file contains:
 
 To add a new plugin to this marketplace:
 
-1. Create a new directory under `plugins/` with your plugin name
+1. Create a new directory under `plugins/` with your plugin name. You must not add a prefix or suffix `plugin` to the name.
 2. Add your plugin files (commands, agents, etc.) to the directory
 3. Update `.claude-plugin/marketplace.json` to include your plugin metadata:
 

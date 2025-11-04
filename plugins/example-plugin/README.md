@@ -7,7 +7,7 @@ This is an example plugin to demonstrate the structure of plugins in the MLL Cla
 Once you've added the MLL marketplace to Claude Code, install this plugin with:
 
 ```bash
-/plugin install example-plugin@mll
+/plugin install example@mll
 ```
 
 ## Usage
