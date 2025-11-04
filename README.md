@@ -16,6 +16,8 @@ To add this marketplace to your Claude Code installation:
 /plugin marketplace add mll-lab/claude-plugin-marketplace
 ```
 
+For detailed usage instructions, see [docs/USAGE.md](docs/USAGE.md).
+
 ### Installing Plugins
 
 Once the marketplace is added, you can browse and install available plugins:
