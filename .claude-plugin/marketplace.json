@@ -1,7 +1,7 @@
 {
   "name": "mll-lab-marketplace",
   "owner": {
-    "name": "MLL Lab",
+    "name": "MLL",
     "email": "info@mll.com"
   },
   "metadata": {
@@ -12,10 +12,10 @@
   "plugins": [
     {
       "name": "example-plugin",
-      "description": "An example plugin demonstrating the structure and usage of plugins in the MLL Lab marketplace",
+      "description": "An example plugin demonstrating the structure and usage of plugins in the MLL marketplace",
       "version": "1.0.0",
       "author": {
-        "name": "MLL Lab Team",
+        "name": "MLL Team",
         "email": "info@mll.com"
       },
       "source": "./plugins/example-plugin",

@@ -1,15 +1,15 @@
-# Contributing to MLL Lab Claude Code Plugin Marketplace
+# Contributing to MLL Claude Code Plugin Marketplace
 
-Thank you for your interest in contributing to the MLL Lab Claude Code Plugin Marketplace! This document provides guidelines for adding new plugins to the marketplace.
+Thank you for your interest in contributing to the MLL Claude Code Plugin Marketplace! This document provides guidelines for adding new plugins to the marketplace.
 
 ## 🎯 Overview
 
-This marketplace provides a centralized catalog for Claude Code plugins used within MLL Lab. Each plugin can contain commands, agents, or other Claude Code extensions.
+This marketplace provides a centralized catalog for Claude Code plugins used within MLL. Each plugin can contain commands, agents, or other Claude Code extensions.
 
 ## 📋 Prerequisites
 
 Before contributing, ensure you have:
-- Access to the MLL Lab GitHub organization
+- Access to the MLL GitHub organization
 - Familiarity with [Claude Code plugins](https://docs.claude.com/en/docs/claude-code/plugins)
 - Basic Git and GitHub workflow knowledge
 
@@ -171,8 +171,8 @@ If you encounter issues with:
 
 ## 📧 Contact
 
-For questions or support, reach out to the MLL Lab development team.
+For questions or support, reach out to the MLL development team.
 
 ---
 
-Thank you for contributing to the MLL Lab Claude Code Plugin Marketplace! 🎉
+Thank you for contributing to the MLL Claude Code Plugin Marketplace! 🎉

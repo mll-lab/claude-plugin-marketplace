@@ -1,10 +1,10 @@
 # Example Plugin
 
-This is an example plugin to demonstrate the structure of plugins in the MLL Lab Claude Code Plugin Marketplace.
+This is an example plugin to demonstrate the structure of plugins in the MLL Claude Code Plugin Marketplace.
 
 ## Installation
 
-Once you've added the MLL Lab marketplace to Claude Code, install this plugin with:
+Once you've added the MLL marketplace to Claude Code, install this plugin with:
 
 ```bash
 /plugin install example-plugin@mll-lab-marketplace
@@ -35,7 +35,7 @@ This plugin demonstrates:
 
 ## Author
 
-- **Name**: MLL Lab Team
+- **Name**: MLL Team
 - **Email**: info@mll.com
 
 ## Version History
