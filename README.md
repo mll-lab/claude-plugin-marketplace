@@ -75,15 +75,7 @@ To add a new plugin to this marketplace:
 ```json
 {
   "name": "your-plugin-name",
-  "description": "Brief description of what your plugin does",
-  "version": "1.0.0",
-  "author": {
-    "name": "Your Name",
-    "email": "your.email@mll.com"
-  },
-  "source": "./plugins/your-plugin-name",
-  "category": "productivity",
-  "keywords": ["keyword1", "keyword2"]
+  "description": "Brief description of what your plugin does"
 }
 ```
 
