@@ -7,13 +7,13 @@ This command captures user stories and acceptance criteria in structured EARS no
 To create a new requirement, just type:
 
 ```
-/spec:req <jira_id>
+/spec:req <jira_issue_id>
 ```
 
 ## What This Command Does
 
-1. Retrieves the story with the given ID <jira_id> from JIRA.
-2. Checks if a folder with a filepath-safe version of <jira_id> already exists under `.specs`, if not it creates it.
+1. Retrieves the story with the given ID <jira_issue_id> from JIRA.
+2. Checks if a folder with a filepath-safe version of <jira_issue_id> already exists under `.specs`, if not it creates it.
 3. Checks if a file named `requirements.md` exists in the newly created folder, if not it creates one.
 4. Turns the description of the JIRA story into a fully fleshed out `requirements.md` file in the appropriate format.
 5. Asks the user for additional details to fill out the requirements. This is a repetitive process until all details are captured.

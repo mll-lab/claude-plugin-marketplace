@@ -22,7 +22,7 @@ This will show you the status of all configured MCPs. If the Atlassian Rovo MCP 
 
 The spec plugin provides three commands that should be run sequentially to guide your development process. Each command can be run multiple times to iterate and refine at each stage.
 
-### 1. Capture Requirements: `/spec:req <jira_id>`
+### 1. Capture Requirements: `/spec:req <jira_issue_id>`
 
 Start by capturing requirements from a JIRA story:
 
@@ -33,12 +33,12 @@ Start by capturing requirements from a JIRA story:
 This command:
 
 - Retrieves the JIRA story with the given ID
-- Creates a `.specs/<jira_id>/` folder in your project
+- Creates a `.specs/<jira_issue_id>/` folder in your project
 - Generates a `requirements.md` file using EARS (Easy Approach to Requirements Syntax) notation
 - Interactively asks for additional details to complete requirements
 - Posts the requirements back to JIRA as a comment upon approval
 
-### 2. Design the Solution: `/spec:design <jira_id>`
+### 2. Design the Solution: `/spec:design <jira_issue_id>`
 
 Next, create a technical design based on your requirements:
 
@@ -53,7 +53,7 @@ This command:
 - Includes mermaid diagrams for visualizing architecture
 - Documents data models, error handling, and testing strategy
 
-### 3. Plan Implementation: `/spec:impl <jira_id>`
+### 3. Plan Implementation: `/spec:impl <jira_issue_id>`
 
 Finally, generate a detailed implementation plan with trackable tasks:
 
@@ -65,7 +65,7 @@ This command:
 
 - Checks that both requirements and design exist (will prompt if missing)
 - Creates a `tasks.md` file with discrete, trackable tasks
-- Automatically creates JIRA subtasks under the parent story
+- Automatically creates JIRA sub-tasks under the parent story
 - Allows iterative refinement of tasks
 - Executes tasks one at a time, transitioning JIRA issues to "In Progress"
 
@@ -86,7 +86,7 @@ Requirements → Design → Implementation
 
 ## Features
 
-- **JIRA Integration**: Bidirectional sync with JIRA - reads stories, creates subtasks, posts comments, and transitions issues
+- **JIRA Integration**: Bidirectional sync with JIRA - reads stories, creates sub-tasks, posts comments, and transitions issues
 - **EARS Notation**: Uses industry-standard Easy Approach to Requirements Syntax for clear, testable requirements
 - **Enforced Dependencies**: Prevents skipping phases in the development workflow
 - **Iterative Refinement**: Each phase can be revisited and refined as understanding evolves
@@ -103,7 +103,7 @@ The plugin creates a `.specs/` directory at your project root with the following
 
 ```plaintext
 .specs/
-└── <jira_id>/
+└── <jira_issue_id>/
     ├── requirements.md
     ├── design.md
     └── tasks.md
@@ -114,7 +114,7 @@ The plugin creates a `.specs/` directory at your project root with the following
 - JIRA access must be configured
 - Requires permissions to:
   - Read JIRA stories
-  - Create subtasks
+  - Create sub-tasks
   - Post comments
   - Transition issues
 
