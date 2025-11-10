@@ -30,7 +30,7 @@ To create a new implementation plan with JIRA issues, just type:
 
 # Implementation Plan
 
-- [] 1. Short description of the task (<jira_issue_id_1>)
+- [ ] 1. Short description of the task (<jira_issue_id_1>)
 
   - Relevant sub-tasks or steps to complete the task
   - \_Requirements: 5.1, 1.1, etc. (see requirements.md)

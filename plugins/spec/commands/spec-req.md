@@ -15,7 +15,7 @@ To create a new requirement, just type:
 1. Retrieves the story with the given ID <jira_id> from JIRA.
 2. Checks if a folder with a filepath-safe version of <jira_id> already exists under `.specs`, if not it creates it.
 3. Checks if a file named `requirements.md` exists in the newly created folder, if not it creates one.
-4. Turns the description of the JIRA story into a fully flashed out `requirements.md` file in the appropriate format.
+4. Turns the description of the JIRA story into a fully fleshed out `requirements.md` file in the appropriate format.
 5. Asks the user for additional details to fill out the requirements. This is a repetitive process until all details are captured.
 6. Once finished, it asks the user to review the `requirements.md` file.
 7. If the user approves, it determines the changes to the original requirements and posts them as comment to the JIRA issue in the language of the original issue description.
@@ -65,18 +65,18 @@ THE SYSTEM SHALL [expected behavior]
 ```
 
 ```
-IF <unwanted condition/event>, 
-THEN the system shall [system response/behavior]
+IF [unwanted condition/event],
+THEN THE SYSTEM SHALL [system response/behavior]
 ```
 
 ```
-WHILE <system state>,
-the system shall [system response/behavior]
+WHILE [system state],
+THE SYSTEM SHALL [system response/behavior]
 ```
 
 ```
-WHERE <feature>,
-the system shall [system response/behavior]
+WHERE [feature],
+THE SYSTEM SHALL [system response/behavior]
 ```
 
 Note these patterns can be combined for more complex scenarios.

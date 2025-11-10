@@ -32,7 +32,7 @@ Example:
 
 This design implements Google Sign In as an additional authentication method for the existing Next.js application. The solution integrates Google as an identity provider with Amazon Cognito, leveraging the existing AWS Amplify authentication flow while adding a new UI option for users to authenticate with their Google accounts.
 
-The design maintains the current authentication architecture and user management systemm, extending it to support federated identity through Google OAuth 2.0.
+The design maintains the current authentication architecture and user management system, extending it to support federated identity through Google OAuth 2.0.
 
 ```
 
@@ -45,7 +45,7 @@ Describe the flow at a high level.
 Example:
 ```
 
-1. **User Interface**: Enahanced sign-in page with both Cognito and Google authentication options
+1. **User Interface**: Enhanced sign-in page with both Cognito and Google authentication options
 2. **Identity Provider**: Google OAuth 2.0 configured as a federated identity provider in Cognito
 3. **Authentication Flow**: AWS Amplify handles OAuth flow with Google through Cognito
 4. **User Management**: Existing user creation and session management remains unchanged
