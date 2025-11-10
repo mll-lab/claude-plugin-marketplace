@@ -21,4 +21,4 @@ plugins/
 3. Update the marketplace.json file in `.claude-plugin/` to reference your plugin
 4. Document your plugin in its README.md
 
-For examples, see existing plugins or refer to the [plugin development documentation](https://docs.claude.com/en/docs/claude-code/plugins).
+Refer to the [plugin development documentation](https://docs.claude.com/en/docs/claude-code/plugins) for more information.

@@ -11,18 +11,6 @@
   },
   "plugins": [
     {
-      "name": "example",
-      "description": "An example plugin demonstrating the structure and usage of plugins in the MLL marketplace",
-      "version": "1.0.0",
-      "author": {
-        "name": "MLL Team",
-        "email": "info@mll.com"
-      },
-      "source": "./plugins/example",
-      "category": "general",
-      "keywords": ["example", "demo", "template", "getting-started"]
-    },
-    {
       "name": "spec",
       "description": "A plugin for spec-driven development",
       "version": "1.0.0",
