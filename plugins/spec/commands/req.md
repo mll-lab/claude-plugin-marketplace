@@ -7,7 +7,7 @@ This command captures user stories and acceptance criteria in structured EARS no
 To create a new requirement, just type:
 
 ```
-/spec-req <jira_id>
+/spec:req <jira_id>
 ```
 
 ## What This Command Does

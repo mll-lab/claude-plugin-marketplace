@@ -7,12 +7,12 @@ This command documents technical architecture, sequence diagrams, and implementa
 To create a new design, just type:
 
 ```
-/spec-design <jira_id>
+/spec:design <jira_id>
 ```
 
 ## What This Command Does
 
-1. Checks if the folder with a filepath-safe version of <jira_id> already exists under `.specs` and has a `requirements.md` file. If not, it stops and asks the user to create the requirements first with `/spec-req <jira_id>`.
+1. Checks if the folder with a filepath-safe version of <jira_id> already exists under `.specs` and has a `requirements.md` file. If not, it stops and asks the user to create the requirements first with `/spec:req <jira_id>`.
 2. Checks if a file named `design.md` exists in the folder, if not it creates one.
 3. Based on the requirements defined in `requirements.md`, it generates a preliminary design document in `design.md` with appropriate format.
 

@@ -8,12 +8,12 @@ Each task is clearly defined, with a clear description, expected outcome, and an
 To create a new implementation plan with JIRA issues, just type:
 
 ```
-/spec-impl <jira_id>
+/spec:impl <jira_id>
 ```
 
 ## What This Command Does
 
-1. Checks if the folder with <jira_id> already exists under `.specs` and has a `requirements.md` and `design.md` file. If not, it stops and asks the user to create the design first with `/spec-design <feature>`.
+1. Checks if the folder with <jira_id> already exists under `.specs` and has a `requirements.md` and `design.md` file. If not, it stops and asks the user to create the design first with `/spec:design <feature>`.
 2. Checks if a file named `tasks.md` exists in the folder, if not it creates one.
 3. Based on the design defined in `design.md`, it generates an implementation plan in `tasks.md` with appropriate format.
 4. It creates a subtask in JIRA for each task in the implementation plan under the story with ID <jira_id>.
