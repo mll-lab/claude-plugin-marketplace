@@ -4,11 +4,7 @@ A spec-driven development plugin that provides a structured, sequential workflow
 
 ## Installation
 
-Once you've added the MLL marketplace to Claude Code, install this plugin with:
-
-```bash
-/plugin install spec@mll
-```
+See [README.md](../../README.md#installing-plugins) for instructions.
 
 ### Prerequisites
 
@@ -30,7 +26,7 @@ The spec plugin provides three commands that should be run sequentially to guide
 
 Start by capturing requirements from a JIRA story:
 
-```bash
+```claude_code
 /spec-req PROJ-123
 ```
 
@@ -42,11 +38,11 @@ This command:
 - Interactively asks for additional details to complete requirements
 - Posts the requirements back to JIRA as a comment upon approval
 
-### 2. Design the Solution: `/spec-design <feature>`
+### 2. Design the Solution: `/spec-design <jira_id>`
 
 Next, create a technical design based on your requirements:
 
-```bash
+```claude_code
 /spec-design PROJ-123
 ```
 
@@ -57,11 +53,11 @@ This command:
 - Includes mermaid diagrams for visualizing architecture
 - Documents data models, error handling, and testing strategy
 
-### 3. Plan Implementation: `/spec-impl <jira_story_id>`
+### 3. Plan Implementation: `/spec-impl <jira_id>`
 
 Finally, generate a detailed implementation plan with trackable tasks:
 
-```bash
+```claude_code
 /spec-impl PROJ-123
 ```
 
@@ -107,7 +103,7 @@ The plugin creates a `.specs/` directory at your project root with the following
 
 ```plaintext
 .specs/
-└── <jira-id>/
+└── <jira_id>/
     ├── requirements.md
     ├── design.md
     └── tasks.md
@@ -131,6 +127,19 @@ The plugin creates a `.specs/` directory at your project root with the following
   - `WHILE <state>, the system shall [behavior]`
   - `WHERE <feature>, the system shall [behavior]`
 - Checklist format for implementation tasks
+
+#### Markdownlint Configuration
+
+Generated documentation files include the markdownlint disable directives at the top:
+
+```markdown
+<!-- markdownlint-disable-file MD024 -->
+<!-- markdownlint-disable-file MD013 -->
+<!-- markdownlint-disable-file MD040 -->
+```
+
+These directives prevent linting errors in IDEs with [markdownlint](https://github.com/DavidAnson/markdownlint) enabled.
+For a complete list of rules, refer to the [documentation](https://github.com/DavidAnson/markdownlint?tab=readme-ov-file#rules--aliases).
 
 ### Design Document Sections
 
