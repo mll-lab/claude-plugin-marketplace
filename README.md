@@ -29,18 +29,6 @@ Once the marketplace is added, you can browse and install available plugins:
 /plugin install <plugin-name>@mll
 ```
 
-## 📦 Available Plugins
-
-### Example Plugin
-
-A demonstration plugin that shows the structure and usage of plugins in this marketplace.
-
-- **Command**: `/example-hello`
-- **Category**: general
-- **Description**: Provides a friendly greeting and demonstrates plugin structure
-
-More plugins will be added as they are developed by the MLL team.
-
 ## 🔧 Marketplace Structure
 
 This marketplace follows the official Claude Code plugin marketplace specification:
@@ -64,32 +52,11 @@ The `.claude-plugin/marketplace.json` file contains:
 - **metadata**: Description, version, and homepage
 - **plugins**: Array of available plugins with their metadata
 
-## 📝 Adding New Plugins
-
-To add a new plugin to this marketplace:
-
-1. Create a new directory under `plugins/` with your plugin name. You must not add a prefix or suffix `plugin` to the name.
-2. Add your plugin files (commands, agents, etc.) to the directory
-3. Update `.claude-plugin/marketplace.json` to include your plugin metadata:
-
-```json
-{
-  "name": "your-plugin-name",
-  "description": "Brief description of what your plugin does"
-}
-```
-
 ## 📚 Documentation
 
 For more information about Claude Code plugin marketplaces, see the [official documentation](https://docs.claude.com/en/docs/claude-code/plugin-marketplaces).
 
 ## 🤝 Contributing
-
-This marketplace is maintained by MLL for internal use.
-If you're part of the MLL team and want to contribute a plugin:
-1. Fork this repository
-2. Add your plugin following the structure above
-3. Submit a pull request with your changes
 
 For detailed contribution guidelines, see [CONTRIBUTING.md](CONTRIBUTING.md).
 

@@ -26,6 +26,7 @@ Before contributing, ensure you have:
    - `README.md` - Documentation for your plugin
    - `plugin.md` - Your plugin implementation (commands, agents, etc.)
    - Any additional files needed by your plugin
+   - Avoid prefixing plugin files with the plugin name, as plugins act as namespaces
 
 ### Step 2: Document Your Plugin
 
@@ -38,9 +39,7 @@ Brief description of what your plugin does.
 
 ## Installation
 
-```bash
-/plugin install my-plugin@mll
-```
+See [README.md](../../README.md#installing-plugins) for instructions.
 
 ## Usage
 

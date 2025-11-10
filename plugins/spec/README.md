@@ -22,12 +22,12 @@ This will show you the status of all configured MCPs. If the Atlassian Rovo MCP 
 
 The spec plugin provides three commands that should be run sequentially to guide your development process. Each command can be run multiple times to iterate and refine at each stage.
 
-### 1. Capture Requirements: `/spec-req <jira_id>`
+### 1. Capture Requirements: `/spec:req <jira_id>`
 
 Start by capturing requirements from a JIRA story:
 
 ```claude_code
-/spec-req PROJ-123
+/spec:req PROJ-123
 ```
 
 This command:
@@ -38,27 +38,27 @@ This command:
 - Interactively asks for additional details to complete requirements
 - Posts the requirements back to JIRA as a comment upon approval
 
-### 2. Design the Solution: `/spec-design <jira_id>`
+### 2. Design the Solution: `/spec:design <jira_id>`
 
 Next, create a technical design based on your requirements:
 
 ```claude_code
-/spec-design PROJ-123
+/spec:design PROJ-123
 ```
 
 This command:
 
-- Checks that requirements exist (will prompt you to run `/spec-req` first if missing)
+- Checks that requirements exist (will prompt you to run `/spec:req` first if missing)
 - Creates a `design.md` file with architecture, component interactions, and implementation considerations
 - Includes mermaid diagrams for visualizing architecture
 - Documents data models, error handling, and testing strategy
 
-### 3. Plan Implementation: `/spec-impl <jira_id>`
+### 3. Plan Implementation: `/spec:impl <jira_id>`
 
 Finally, generate a detailed implementation plan with trackable tasks:
 
 ```claude_code
-/spec-impl PROJ-123
+/spec:impl PROJ-123
 ```
 
 This command:
