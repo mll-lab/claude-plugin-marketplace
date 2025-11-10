@@ -21,6 +21,18 @@
       "source": "./plugins/example",
       "category": "general",
       "keywords": ["example", "demo", "template", "getting-started"]
+    },
+    {
+      "name": "spec",
+      "description": "A plugin for spec-driven development",
+      "version": "1.0.0",
+      "author": {
+        "name": "MLL Team",
+        "email": "info@mll.com"
+      },
+      "source": "./plugins/spec",
+      "category": "development",
+      "keywords": ["spec", "requirements", "design", "implementation", "jira"]
     }
   ]
 }
