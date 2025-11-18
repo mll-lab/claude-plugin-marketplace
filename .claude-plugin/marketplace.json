@@ -21,6 +21,18 @@
       "source": "./plugins/spec",
       "category": "development",
       "keywords": ["spec", "requirements", "design", "implementation", "jira"]
+    },
+    {
+      "name": "gitlab",
+      "description": "Guidance for using the glab CLI effectively with GitLab",
+      "version": "1.0.0",
+      "author": {
+        "name": "MLL Team",
+        "email": "info@mll.com"
+      },
+      "source": "./plugins/gitlab",
+      "category": "development",
+      "keywords": ["gitlab", "glab", "ci", "cd", "pipeline", "jobs", "mr", "merge-request"]
     }
   ]
 }
