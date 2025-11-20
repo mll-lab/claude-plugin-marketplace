@@ -68,7 +68,7 @@ glab ci list --status=failed
 
 ## Important Notes
 
-- `glab ci view` uses an interactive TUI and may not work in non-interactive environments - prefer `glab ci status` or `glab ci get` instead
+- **NEVER use `glab ci view`** - it only works interactively. Use `glab ci status --live` for monitoring or `glab ci trace` for job logs instead
 - Job names and job IDs work with `glab ci trace`, but pipeline IDs do not
 - Always specify `--repo` if working with a repository other than the current directory
 - Use `--branch` for both branches and tags (the flag name is `--branch` even for tags)
