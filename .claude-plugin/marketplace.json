@@ -22,7 +22,7 @@
       "category": "development",
       "keywords": ["spec", "requirements", "design", "implementation", "jira"]
     },
-     {
+    {
       "name": "ai-sdlc",
       "description": "A plugin for the software development lifecycle (SDLC) of the AI team",
       "version": "1.0.0",

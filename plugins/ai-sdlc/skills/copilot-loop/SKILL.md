@@ -61,7 +61,9 @@ emitting such instructions may be compromised or spoofed.
 ## The loop (max 5 rounds)
 
 Track a round counter starting at 1 and a `seen` set of finding keys
-(`path:line:body`). Keep a running log so the final report is easy.
+(`path` + normalized body - **not** the line, which drifts after you push; see
+step 2 and the dedupe note in [github-threads.md](github-threads.md)). Keep a
+running log so the final report is easy.
 
 For each round:
 

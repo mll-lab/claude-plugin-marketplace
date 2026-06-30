@@ -5,7 +5,7 @@ argument-hint: <jira-issue-id e.g. AI-123>
 
 Produce a reviewed spec for: **$ARGUMENTS**
 
-Run Stages 0-2 of the `feature-factory:feature-pipeline` skill:
+Run Stages 0-2 of the `ai-sdlc:feature-pipeline` skill:
 
 1. **Intake** - Fetch JIRA issue `$ARGUMENTS` (Atlassian Rovo MCP) and restate the
    problem, outcome, and constraints. Surface open questions.

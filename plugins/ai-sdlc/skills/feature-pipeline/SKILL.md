@@ -1,6 +1,6 @@
 ---
 name: feature-pipeline
-description: The canonical end-to-end feature-delivery pipeline. Use when the user wants to take a Jira issue (or a described feature) from idea to a reviewed PR - e.g. "look at AI-123 and implement it", "ship this feature", "run the pipeline". Covers spec brainstorming, adversarial spec challenge, an implementation plan, subagent-driven or inline implementation, opening a PR, and a bounded Copilot resolution loop. This skill is the single source of truth that the /ship-feature orchestrator and the per-stage commands all defer to.
+description: The canonical end-to-end feature-delivery pipeline. Use when the user wants to take a Jira issue (or a described feature) from idea to a reviewed PR - e.g. "look at AI-123 and implement it", "ship this feature", "run the pipeline". Covers spec brainstorming, adversarial spec challenge, an implementation plan, subagent-driven or inline implementation, opening a PR, and a bounded Copilot resolution loop. This skill is the single source of truth that the /feature-ship orchestrator and the per-stage commands all defer to.
 ---
 
 # Feature Factory pipeline
@@ -17,7 +17,7 @@ loop.
   `superpowers:writing-plans`, `superpowers:subagent-driven-development`,
   `superpowers:executing-plans`). If a superpowers skill is missing, say so and stop
   rather than improvising a replacement.
-- Stage 6 uses the **`feature-factory:copilot-loop`** skill, which drives
+- Stage 6 uses the **`ai-sdlc:copilot-loop`** skill, which drives
   Copilot directly via `gh` - no separate Copilot skill needs to be installed.
 - Jira access (the Jira MCP tools, `mcp__*atlassian*`) for fetching the issue.
 - `gh` CLI authenticated, for opening the PR.
@@ -55,7 +55,7 @@ loop.
 
 Invoke **`superpowers:brainstorming`** with the intake summary as the seed. Let it
 run its Socratic process and produce the design document / spec. Do not skip its
-questions - answer from the Linear context where you can, and surface to the human
+questions - answer from the Jira context where you can, and surface to the human
 any question you cannot answer confidently.
 
 Output of this stage: a saved spec/design document.
@@ -78,7 +78,7 @@ This replaces Sven's old manual "ask another Opus to challenge the spec" step.
 
 Present: (a) the revised spec, (b) the challenger's verdict, (c) your changelog of
 folded-in vs rejected findings. Then **STOP** and ask Sven to approve, request
-further changes, or re-run the challenge (`/challenge-spec`). Do not proceed to
+further changes, or re-run the challenge (`/spec-challenge`). Do not proceed to
 planning until he approves.
 
 ## Stage 3 - Implementation plan

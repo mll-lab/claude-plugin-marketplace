@@ -20,4 +20,4 @@ Run Stage 4 of the `ai-sdlc:feature-pipeline` skill:
    debug code. Honor the conventions of the current repository, e.g. coding style,
    architecture patterns, and testing practices.
 
-Do not open the PR here - that's `/open-pr`.
+Do not open the PR here - that's `/pr-open`.

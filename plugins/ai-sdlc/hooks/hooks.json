@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python \"${CLAUDE_PLUGIN_ROOT}/hooks/guard-claude-spelling.py\"",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/guard-claude-spelling.py\"",
             "statusMessage": "Checking .claude spelling"
           }
         ]

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 """Block tool calls whose paths contain a misspelling of the .claude config dir.
 
 Reads a PreToolUse hook payload on stdin. If a Write / Edit / MultiEdit /
@@ -25,7 +25,7 @@ import json
 import re
 
 TARGET = "claude"                 # compared against the segment minus its leading dot
-ALLOW = {".claude", ".clause"}    # exact dot-segments that are never flagged
+ALLOW = {".claude"}               # exact dot-segments that are never flagged
 
 # Commands that create/enter a path given a bare (slash-free) argument.
 _DIR_CMDS = r"mkdir|rmdir|cd|pushd|touch|mkfifo"

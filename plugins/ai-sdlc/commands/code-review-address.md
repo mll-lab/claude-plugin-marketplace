@@ -13,7 +13,8 @@ Follow the `ai-sdlc:copilot-loop` skill. For up to **5 rounds**:
 2. Classify each: justified / unjustified / needs-human-judgment.
 3. Justified -> fix in code and reply; unjustified -> reply with a respectful
    rationale, no code change; needs-judgment -> defer and flag.
-4. Resolve every actioned thread. Commit and push (triggers re-review).
+4. Resolve every actioned thread. Commit and push, then **re-request** Copilot's
+   review (a push alone does not reliably re-trigger it - see the skill).
 5. Stop when a round starts with no actionable threads, or after 5 rounds.
 
 Then **STOP at GATE 2** and report: rounds used and why it stopped, what changed,
