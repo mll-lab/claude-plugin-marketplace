@@ -21,6 +21,18 @@
       "source": "./plugins/spec",
       "category": "development",
       "keywords": ["spec", "requirements", "design", "implementation", "jira"]
+    },
+     {
+      "name": "ai-sdlc",
+      "description": "A plugin for the software development lifecycle (SDLC) of the AI team",
+      "version": "1.0.0",
+      "author": {
+        "name": "MLL AI Team",
+        "email": "info@mll.com"
+      },
+      "source": "./plugins/ai-sdlc",
+      "category": "development",
+      "keywords": ["sdlc", "ai", "development", "lifecycle", "jira"]
     }
   ]
 }
