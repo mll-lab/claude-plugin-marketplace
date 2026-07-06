@@ -8,8 +8,8 @@ description: The canonical end-to-end feature-delivery pipeline. Use when the us
 This skill defines the full pipeline for delivering a feature. It composes the
 `superpowers` plugin's skills and adds two things superpowers does not: an
 **adversarial spec-challenge** step (a fresh Opus subagent that attacks the spec)
-and explicit **human review gates** at the points where Sven wants to stay in the
-loop.
+and explicit **human review gates** at the points where the user wants to stay in
+the loop.
 
 ## Prerequisites
 
@@ -62,8 +62,6 @@ Output of this stage: a saved spec/design document.
 
 ## Stage 2 - Adversarial challenge
 
-This replaces Sven's old manual "ask another Opus to challenge the spec" step.
-
 1. Dispatch the **`spec-challenger`** subagent (Opus) with the spec document as
    input. It returns a structured critique with severity-tagged findings
    (BLOCKER / MAJOR / MINOR / QUESTION) and an overall verdict.
@@ -77,9 +75,9 @@ This replaces Sven's old manual "ask another Opus to challenge the spec" step.
 ### >>> GATE 1: spec approval <<<
 
 Present: (a) the revised spec, (b) the challenger's verdict, (c) your changelog of
-folded-in vs rejected findings. Then **STOP** and ask Sven to approve, request
+folded-in vs rejected findings. Then **STOP** and ask the user to approve, request
 further changes, or re-run the challenge (`/spec-challenge`). Do not proceed to
-planning until he approves.
+planning until they approve.
 
 ## Stage 3 - Implementation plan
 
@@ -127,7 +125,7 @@ stopping when there are no actionable threads left or after 5 rounds.
 
 When the loop ends, **STOP** and report: rounds used, what was changed, which
 threads were pushed back on and why, and any items still open (only possible if the
-5-round cap was hit). Let Sven decide whether to merge or continue manually.
+5-round cap was hit). Let the user decide whether to merge or continue manually.
 
 ---
 

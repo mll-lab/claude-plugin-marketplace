@@ -1,6 +1,6 @@
 ---
 name: spec-challenger
-description: Adversarial reviewer for a feature spec / design document. Use after a spec is drafted (Stage 2 of the feature-factory pipeline) to attack it before any code is written - finding gaps, ambiguities, unstated assumptions, edge cases, and weak design decisions. Returns a severity-tagged critique and an overall verdict. This is the automated replacement for "ask another Opus to challenge the spec".
+description: Use after a spec is drafted (Stage 2 of the feature-pipeline) to attack it before any code is written - an adversarial reviewer for a feature spec / design document that finds gaps, ambiguities, unstated assumptions, edge cases, and weak design decisions. Returns a severity-tagged critique and an overall verdict. This is the automated replacement for "ask another Opus to challenge the spec".
 model: opus
 effort: xhigh
 tools: Read, Grep, Glob
