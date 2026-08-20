@@ -41,7 +41,10 @@ each query in a helper that fails loudly instead of silently yielding `null`:
 gq(){ # gq QUERY [-F k=v ...]  -> prints .data, dies on GraphQL errors
   local q="$1"; shift
   local out; out=$(gh api graphql -f query="$q" "$@") || return 1
-  jq -e '.errors? // empty | length == 0' >/dev/null <<<"$out" \
+  # `(.errors // [])`, NOT `.errors? // empty`: the latter emits NOTHING on the success
+  # path (no `errors` field), and `jq -e` exits 4 on empty output - so every successful
+  # call gets misreported as `GraphQL error: null` and the whole loop stalls.
+  jq -e '(.errors // []) | length == 0' >/dev/null <<<"$out" \
     || { echo "GraphQL error: $(jq -c '.errors' <<<"$out")" >&2; return 1; }
   jq '.data' <<<"$out"
 }
@@ -65,8 +68,8 @@ copilot_state(){ # echoes "<pending true|false> <newest-copilot-review-ts or ''>
         }
       }
     }' -F owner="$owner" -F repo="$repo" -F pr="$pr" | jq -r '
-      [ (.repository.pullRequest.reviewRequests.nodes[].requestedReviewer
-         | select(.login? // "" | test("copilot";"i"))) ] | length > 0,
+      ([ (.repository.pullRequest.reviewRequests.nodes[].requestedReviewer
+         | select(.login? // "" | test("copilot";"i"))) ] | length > 0),
       ([ .repository.pullRequest.reviews.nodes[]
          | select(.author.login? // "" | test("copilot";"i")) | .submittedAt ]
          | sort | last // "")' | paste -sd' '
@@ -88,6 +91,14 @@ new review has not landed - keep waiting. Only when Copilot is no longer pending
 arrives within your bounded timeout, Copilot's quota may be exhausted - note it and
 stop. (On the **first** round there is no re-request; just wait for `pending == false`
 with any non-empty `new_ts`.)
+
+**Keep both branches of that `jq -r` parenthesized.** jq binds `|` looser than `,`, so
+`[...] | length > 0, ([...])` parses as `[...] | (length > 0, ([...]))` - the second
+branch then evaluates with `.` bound to the first branch's array and dies with
+`Cannot index array with string "repository"`. This fails in the worst direction: the
+timestamp comes back empty, `new_ts > prev_ts` can never hold, and the wait above spins
+to its timeout, which the loop then misreports as Copilot quota exhaustion rather than
+as a broken query.
 
 ## Read Copilot's overview (summary) comment
 
