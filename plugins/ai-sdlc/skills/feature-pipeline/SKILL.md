@@ -104,6 +104,30 @@ ask before starting. Let the chosen superpowers skill drive TDD and per-task rev
 When implementation completes, run a final sanity check: tests pass, the diff
 matches the plan, no stray debug code.
 
+**Never pipe a repository-wide test run or a `git commit` through `tail` or `head`.**
+On a large repo the useful lines are in the middle: the failing package's block sits
+between hundreds of lines of passing output, so `tail` shows you the closing summary,
+`head` shows you the start, and neither shows you the failure. Redirect to a file and
+grep the file:
+
+```bash
+git commit -F /tmp/msg > /tmp/commit.log 2>&1 || grep -nE "Failed:|FAIL|[0-9]+ failed" /tmp/commit.log
+```
+
+This matters most for the run you cannot reproduce on demand. A retry that goes green
+usually **overwrites** whatever per-package log the build tool kept, so a failure you
+piped away is gone for good. Real case: five recorded sightings of two load-sensitive
+flakes each lost the failing test name exactly this way.
+
+Two habits that follow from it:
+
+- If the repository preserves failure evidence of its own, **name the preserved path in
+  the task report**. A reviewer who cannot see your terminal can still read the
+  artefact.
+- If a repo-wide gate fails in a package your change does not touch, **say so
+  explicitly** instead of retrying in silence. An unattributed retry is how a flake
+  stays undiagnosed for months.
+
 ## Stage 5 - Open the PR
 
 1. Ensure all work is committed and the branch is pushed.
