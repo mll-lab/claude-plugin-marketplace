@@ -79,11 +79,20 @@ prev_ts=$(copilot_state | awk '{print $2}')   # capture BEFORE re-requesting
 # ... re-request (see below) ...
 while :; do
   read -r pending new_ts < <(copilot_state)
-  # ISO-8601 timestamps compare correctly as strings; "" sorts before any real ts
-  [ "$pending" = "false" ] && [ "$new_ts" \> "$prev_ts" ] && break
+  # ISO-8601 timestamps compare correctly as strings; "" sorts before any real ts.
+  # `[[ ]]`, not `[ ]`: inside `[ ]` the `>` must be escaped as `\>`, and zsh rejects
+  # `[ a \> b ]` outright with "condition expected: >". That fails in the worst
+  # direction - the test errors on EVERY iteration, so the loop never breaks and burns
+  # its whole timeout after the review has already landed, which then gets misreported
+  # as quota exhaustion. `[[ a > b ]]` does string comparison in both bash and zsh.
+  [ "$pending" = "false" ] && [[ "$new_ts" > "$prev_ts" ]] && break
   sleep 15   # bounded: give up after ~5 min and treat as quota exhaustion
 done
 ```
+
+These snippets need **bash or zsh**, not POSIX `sh`: they use `[[ ]]` and process
+substitution (`< <(...)`). Run them in the shell you actually have, and if you port
+them to `sh`, replace the comparison with `sort`-based ordering rather than `\>`.
 
 `pending == true`, **or** a newest timestamp not yet newer than `prev_ts`, means the
 new review has not landed - keep waiting. Only when Copilot is no longer pending

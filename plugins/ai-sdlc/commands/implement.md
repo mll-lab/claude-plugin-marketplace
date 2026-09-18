@@ -20,4 +20,12 @@ Run Stage 4 of the `ai-sdlc:feature-pipeline` skill:
    debug code. Honor the conventions of the current repository, e.g. coding style,
    architecture patterns, and testing practices.
 
+Never pipe a repository-wide test run or a `git commit` through `tail` or `head` - the
+failing package's block is in the middle, and a retry that goes green typically
+overwrites the per-package log, so a piped-away failure is unrecoverable. Redirect to
+a file and grep it (`… > /tmp/run.log 2>&1 || grep -nE "Failed:|FAIL|[0-9]+ failed"
+/tmp/run.log`). If the repository preserves failure evidence, name the preserved path
+in the task report; if a gate fails in a package your change does not touch, say so
+rather than retrying in silence. See Stage 4 of the `ai-sdlc:feature-pipeline` skill.
+
 Do not open the PR here - that's `/pr-open`.
