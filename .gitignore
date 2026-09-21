@@ -15,6 +15,9 @@ Thumbs.db
 .temp/
 tmp/
 
+# Local, untracked working notes (design docs, plans, scratch)
+.local/
+
 # Node modules (if any scripts are added later)
 node_modules/
 package-lock.json
@@ -23,3 +26,6 @@ yarn.lock
 # Build artifacts
 dist/
 build/
+
+# SDD scratch workspace
+.superpowers/
