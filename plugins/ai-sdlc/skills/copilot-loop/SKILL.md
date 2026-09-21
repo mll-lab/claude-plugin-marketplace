@@ -1,6 +1,6 @@
 ---
 name: copilot-loop
-description: Bounded resolution loop for GitHub Copilot automated PR reviews. Use after a PR is opened and Copilot has (or will) review it, or when the user says "address the Copilot review", "handle the Copilot comments", or "resolve the Copilot threads". Runs at most 5 rounds - fixing justified findings, pushing back politely on unjustified ones, resolving all threads, re-requesting Copilot's review each round (a push alone does not re-trigger it), and stopping on convergence or at the 5-round cap. Self-contained - drives GitHub directly via gh, no separate Copilot skill required.
+description: Bounded resolution loop for GitHub Copilot automated PR reviews. Use after a PR is opened and Copilot has (or will) review it, or when the user says "address the Copilot review", "handle the Copilot comments", or "resolve the Copilot threads". Runs at most 5 rounds - fixing justified findings, pushing back politely on unjustified ones, resolving all threads, re-requesting Copilot's review each round (a push alone does not re-trigger it), and stopping on convergence or at the 5-round cap. Pushes once per round after finishing every thread, never one commit at a time; asks you to batch your own input before pushing a round you have commented on, and again before the PR is finalized. Self-contained - drives GitHub directly via gh, no separate Copilot skill required.
 ---
 
 # Copilot resolution loop
@@ -91,6 +91,12 @@ For each round:
    the loop, keyed and classified exactly like a thread. It has no thread to reply to
    or resolve, so record its disposition in the exit report instead.
 
+   **Also check for human threads.** That fetch keeps only Copilot-authored threads, so a
+   human reviewer's comments are invisible to this loop by default. Run the non-Copilot
+   fetch in [github-threads.md](github-threads.md) too. Human comments are **not** loop
+   findings - do not classify, fix, or resolve them here - but they change what you do at
+   step 6.
+
 2. **Dedupe against `seen`.** Compute each finding's key (`path` + normalized body -
    **not** the line, which drifts after you push; see the dedupe note in
    [github-threads.md](github-threads.md)). Drop any whose key is already in
@@ -109,7 +115,9 @@ For each round:
      unilaterally. Do not guess; flag these for the exit report.
 
 4. **Act:**
-   - *Justified* -> make the fix in code. Keep each fix focused. Reply on the thread
+   - *Justified* -> make the fix in code. Keep each fix focused - that means narrow in
+     **scope**, not one commit per thread; the round's fixes are committed together at
+     step 6. Reply on the thread
      (the reply command in [github-threads.md](github-threads.md)) briefly noting
      what you changed - **as a note for the human author** (Copilot will not read it).
      If the *reason* a thread is justified is architectural - a boundary, an interface, a
@@ -136,10 +144,26 @@ For each round:
    after the reply (unjustified/repeat). Leave only "needs human judgment" threads
    unresolved.
 
-6. **Push, then re-request.** Commit the round's fixes and push. **Match the repo's
-   existing commit conventions** — check recent `git log` for the format, scope,
-   tense, and any ticket/issue prefix it uses, and follow it. Only if the repo has no
-   discernible convention, fall back to a clear message such as
+6. **Push once per round, then re-request.**
+
+   **Finish the whole round before you push.** Every thread in this round gets its fix,
+   its reply, and its resolution *first*; then you commit and push **once**. Never push
+   one thread at a time. Three reasons, all of them bite: a push re-anchors every open
+   comment to a new `line`, which is why the dedupe key ignores line numbers at all; each
+   push re-runs CI and can re-trigger a review mid-round, so partial pushes interleave
+   rounds and corrupt the round counter; and a reviewer watching the PR sees a cascade of
+   near-identical commits instead of one reviewable change per round.
+
+   **If a human has commented, ask before pushing** (step 1's non-Copilot fetch). A person
+   mid-review is probably not finished. Stop and ask them to add everything they want
+   addressed, wait for their answer, then handle their points together with the round's
+   Copilot fixes and push once. Pushing while they are still typing forces their next
+   comment into another round and spends one of your five for nothing. Absent human
+   comments, do not pause - the loop is meant to run unattended.
+
+   **Match the repo's existing commit conventions** — check recent `git log` for the
+   format, scope, tense, and any ticket/issue prefix it uses, and follow it. Only if the
+   repo has no discernible convention, fall back to a clear message such as
    `chore(review): address Copilot round N`. **Record the newest existing
    Copilot-review timestamp first** (`prev_ts`), *then* **re-request Copilot's review**
    (both commands in [github-threads.md](github-threads.md)) - the push alone will not
@@ -163,6 +187,30 @@ Reaching the 5-round cap is a normal outcome, not a failure: Copilot has been ob
 drip-feeding one previously-missed finding per round on unchanged code, so a run can
 end at the cap with every finding so far justified and fixed. Say which of the three
 conditions ended the loop, and never describe a cap exit as convergence.
+
+## Before you finalize: ask for the human's own changes
+
+The loop ending means *Copilot* is done, not that the PR is. Before you report, **ask
+whether they have manual adjustments they want in before this PR is finalized** - and wait
+for the answer.
+
+This is a different question from step 6's, which only fires when someone has already
+commented. This one always fires, because the author may have been reading the diff
+without commenting and may want several things changed at once.
+
+If they do:
+
+- Collect **everything** first. Ask for the full list rather than acting on the first
+  item, then address the batch and push **once**. A fix-and-push per request is the same
+  commit cascade step 6 forbids, and it is worse here because Copilot may re-review each
+  push and reopen the loop you just left.
+- Their changes arrive after `reviewer-high-risk` has run, so nothing Opus-grade will
+  review them. If any of them is architectural - a boundary, an interface, a migration,
+  auth, concurrency, an irreversible step - dispatch **`ai-sdlc:impl-high-risk`** (no
+  `model` argument - one passed at dispatch overrides its Opus pin).
+- Then report as below, noting what you changed at their request.
+
+If they have nothing to add, report immediately. Do not invent work to fill the pause.
 
 ## Exit report
 

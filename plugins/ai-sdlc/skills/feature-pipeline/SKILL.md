@@ -329,9 +329,18 @@ Copilot reviews the PR automatically. Hand off to the
 politely on unjustified ones, resolve all threads, and let Copilot re-review -
 stopping when there are no actionable threads left or after 5 rounds.
 
+**One push per round, and two places the human gets asked.** Each round finishes every
+thread before a single push - never one thread at a time. The loop otherwise runs
+unattended, with two exceptions: if a *human* has commented on the PR (Copilot's thread
+fetch filters those out, so the skill looks for them separately), it asks them to add
+everything they want before pushing that round; and before the loop reports, it asks
+whether they have manual adjustments they want in before the PR is finalized. Both exist
+to collect a batch rather than push a commit per request.
+
 ### >>> GATE 2: loop exit <<<
 
-When the loop ends, **STOP** and report: rounds used, what was changed, which
+When the loop ends, **STOP** and report: rounds used, what was changed (including
+anything the user asked for when the skill offered them the pre-finalize pass), which
 threads were pushed back on and why, and any items still open (only possible if the
 5-round cap was hit). Let the user decide whether to merge or continue manually.
 

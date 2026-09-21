@@ -185,6 +185,39 @@ jq -r '"\(.path)\t" + (.body | gsub("\\s+";" ") | ascii_downcase)' | sha1sum | c
 A thread whose key is already in *seen* is a repeat - resolve it again without
 re-litigating. Convergence is "no thread with a **new** key", not "no threads".
 
+## Fetch human (non-Copilot) review threads
+
+The fetch above deliberately keeps **only** Copilot-authored threads, so a human
+reviewer's comments are invisible to it. Run this after that fetch - it reuses the same
+`$threads` array and simply inverts the author filter - to find out whether a person has
+commented on the PR:
+
+```bash
+echo "$threads" | jq -c '.[]
+  | select(.isResolved == false and .isOutdated == false)
+  | select((.comments.nodes[0].author.login? // "") | test("copilot"; "i") | not)
+  | { threadId: .id,
+      commentId: .comments.nodes[0].databaseId,
+      author: .comments.nodes[0].author.login,
+      path: .comments.nodes[0].path,
+      line: .comments.nodes[0].line,
+      body: .comments.nodes[0].body }'
+```
+
+A non-empty result means a human is mid-review. **These are not loop findings** - do not
+classify, fix, or resolve them on Copilot's schedule. They are the trigger for the
+pre-push ask in the skill's step 6: the person may still be adding more, and pushing now
+forces them into another round.
+
+Human comments can also arrive as PR-level (not inline) comments, which have no review
+thread at all:
+
+```bash
+gh pr view "$pr" --json comments \
+  --jq '.comments[] | select((.author.login // "") | test("copilot";"i") | not)
+        | {author: .author.login, createdAt, body}'
+```
+
 ## Reply on a thread (REST, uses `commentId`)
 
 ```bash
