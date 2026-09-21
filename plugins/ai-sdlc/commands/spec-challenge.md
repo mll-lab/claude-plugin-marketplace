@@ -8,8 +8,14 @@ Re-run the adversarial challenge on the spec: **$ARGUMENTS**
 document.)
 
 1. Dispatch the `spec-challenger` subagent (Opus) with the spec as input.
-2. Triage its findings: fold justified ones into the spec (edit in place); list
-   rejected ones with a one-line reason.
+2. Triage its findings. **You decide** what is justified; dispatch `spec-author`
+   (`MODE: WRITE`, no `model` argument) to apply it, with the finding appended to the
+   decision record's `## Revisions`. List rejected findings with a one-line reason.
+   **If the spec has no decision record** - it was written outside the pipeline - create one at
+   `.local/pipeline/<slug>/decisions.md` (slug from the spec's filename) holding the spec's path
+   under `## Intake` plus a line saying the requirements live in the spec itself, then append
+   the findings to its `## Revisions` as usual. Never fold a finding in yourself: the spec keeps
+   one author.
 3. Present the challenger's verdict and a changelog of what changed, then **STOP**
    for my approval.
 

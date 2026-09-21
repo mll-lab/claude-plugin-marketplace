@@ -7,15 +7,37 @@ Implement the current plan. Mode: **$ARGUMENTS** (default: `auto`).
 
 Run Stage 4 of the `ai-sdlc:feature-pipeline` skill:
 
-1. Pick the execution mode:
-   - `auto` (default) - decide from the plan's complexity. Choose **subagent-driven**
-     unless the change is clearly trivial (roughly 1-2 tasks, single file / tightly
-     scoped, no new abstractions, no cross-cutting concerns).
+1. **Check the plan's risk tags first, before picking a mode.** If any task is tagged
+   `**Risk:** architectural`, or any task carries no risk tier at all, inline mode is
+   **forbidden** - it would have you implement architectural (or untriaged) work yourself,
+   past every model pin. An untagged plan satisfies "no task is architectural" by omission,
+   not by review, so give it tiers first: tag it via `plan-author`, or - **only once you have
+   read every task and none of them meets an architectural trigger** - apply superpowers' own
+   Model Selection signals, and say which. Those signals are *size* signals and risk beats size,
+   so if a task does meet a trigger the fallback is closed: tag the plan, or route that task to
+   `impl-high-risk`. Only once every task carries a risk tier and none is `architectural`
+   can inline be considered at all. Then pick a mode:
+   - `auto` (default) - **subagent-driven** unless every task carries a risk tier, none is
+     `architectural`, *and* the change is clearly trivial (1-2 tasks, single file, no new
+     abstractions, no cross-cutting concerns).
    - `subagent` - force `superpowers:subagent-driven-development`.
-   - `inline` - force `superpowers:executing-plans`.
-   State the chosen mode and the one-line reason. If `auto` and it's borderline, ask
-   before starting.
-2. Run the chosen superpowers skill, letting it drive TDD and per-task review.
+   - `inline` - force `superpowers:executing-plans`. Only valid when every task carries a
+     risk tier and none is `architectural`.
+   State the chosen mode and the one-line reason. If `auto` and it's borderline, ask first.
+2. Run the chosen superpowers skill, letting it drive TDD and per-task review. Dispatch by
+   tier, per Stage 4 of the `ai-sdlc:feature-pipeline` skill: `architectural` ->
+   `impl-high-risk` (**no `model` argument**); `integration` / `mechanical` ->
+   `general-purpose` with an explicit standard / cheap model; task reviews of
+   `architectural` tasks and the final whole-branch review (**regardless of execution
+   mode**) -> `reviewer-high-risk` (**no `model` argument**). A batch takes the highest tag it
+   contains. The **fix wave** superpowers dispatches for the final review's findings goes to
+   `impl-high-risk` (**no `model` argument**) whenever any finding is architectural - it is the
+   last code on the branch and nothing reviews it again. **Append the tier, agent,
+   and model to superpowers' completion line for every dispatch** - never replace that line;
+   superpowers keys resume detection on the literal word `complete` - e.g.
+   `Task 3: complete (commits a1b2c3d..e4f5a6b, review clean; risk: architectural, agent: impl-high-risk, model: opus)`.
+   A dispatch with no task - the fix wave - has no completion line to extend, so give it its own
+   line carrying the same agent and model.
 3. On completion, sanity-check: tests pass, the diff matches the plan, no stray
    debug code. Honor the conventions of the current repository, e.g. coding style,
    architecture patterns, and testing practices.
