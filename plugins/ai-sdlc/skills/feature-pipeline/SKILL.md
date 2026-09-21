@@ -193,19 +193,62 @@ untagged task costs you the expensive default in Stage 4.
 
 ## Stage 4 - Implementation
 
-Decide the execution mode from the plan's complexity:
+**Inline mode is forbidden when any task is tagged `architectural`.**
+`superpowers:executing-plans` means *you* implement, so on a Sonnet driver it routes
+architectural work straight past every pin in the Model policy. The inline trigger ("1-2
+tasks, a single file") overlaps heavily with single-file `architectural` triggers like an auth
+change or a migration, which is exactly when it is most tempting. Check the tags first.
 
-- **Default - subagent-driven.** Use **`superpowers:subagent-driven-development`**.
-  Choose this unless the change is clearly trivial.
-- **Inline (rare).** Use **`superpowers:executing-plans`** only when the change is
-  genuinely small: roughly 1-2 tasks, a single file or tightly scoped area, no new
-  abstractions, no cross-cutting concerns.
+Decide the execution mode:
 
-State which mode you chose and the one-line reason. If it is a borderline call,
-ask before starting. Let the chosen superpowers skill drive TDD and per-task review.
+- **Default - subagent-driven.** Use **`superpowers:subagent-driven-development`**. Required
+  whenever any task is tagged `architectural`.
+- **Inline (rare).** Use **`superpowers:executing-plans`** only when no task is tagged
+  `architectural` **and** the change is genuinely small: roughly 1-2 tasks, a single file or
+  tightly scoped area, no new abstractions, no cross-cutting concerns.
 
-When implementation completes, run a final sanity check: tests pass, the diff
-matches the plan, no stray debug code.
+State which mode you chose and the one-line reason. If it is a borderline call, ask before
+starting.
+
+### Dispatching by risk tier
+
+Let `superpowers:subagent-driven-development` drive TDD and per-task review, and follow its
+Model Selection section - with these ai-sdlc overrides:
+
+| Task's tag | Dispatch | Enforcement |
+|---|---|---|
+| `architectural` | **`impl-high-risk`**, no `model` argument | Structural (frontmatter pin) |
+| `integration` | `general-purpose`, `model` = standard | Prose - your judgement |
+| `mechanical` | `general-purpose`, `model` = cheap | Prose - your judgement |
+| Task review of an `architectural` task | **`reviewer-high-risk`**, no `model` argument | Structural |
+| Task review of other tasks | per superpowers, scaled to the diff | Prose |
+| Final whole-branch review | **`reviewer-high-risk`**, no `model` argument | Structural |
+| Fix-loop rounds 4-5 | per superpowers, one tier above the implementer that stuck. If that was `impl-high-risk`, there is no higher model - raise `effort` and sharpen the brief instead | Prose |
+
+**Batches.** Superpowers batches small same-shape work into one dispatch. A batch takes the
+**highest** tag it contains, and a batch containing an `architectural` task is not batched at
+all - that task gets its own dispatch and its own review.
+
+**A plan with no tags anywhere** predates this contract - hand-written, or from
+`superpowers:writing-plans` invoked directly. Do **not** treat it as all-`architectural`; that
+would send an entire legacy plan to Opus and invert the point of this pipeline. Either
+dispatch `plan-author` to tag it, or fall back to superpowers' own Model Selection signals -
+and **say which, in the transcript.** A *single* untagged task inside an otherwise tagged plan
+is different: treat that one as `architectural`, because there the omission is a mistake.
+
+**Log what actually ran.** In the SDD ledger line for each task, and in your stage report:
+
+```
+Task 3: done (risk: architectural, agent: impl-high-risk, model: opus)
+Task 4: done (risk: mechanical, agent: general-purpose, model: haiku)
+```
+
+The defect this pipeline was built to fix produced no visible difference in the transcript.
+These lines are what make it visible, and what lets anyone check afterwards that the policy
+actually held.
+
+When implementation completes, run a final sanity check: tests pass, the diff matches the
+plan, no stray debug code.
 
 **Never pipe a repository-wide test run or a `git commit` through `tail` or `head`.**
 On a large repo the useful lines are in the middle: the failing package's block sits

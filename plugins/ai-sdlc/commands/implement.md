@@ -7,15 +7,24 @@ Implement the current plan. Mode: **$ARGUMENTS** (default: `auto`).
 
 Run Stage 4 of the `ai-sdlc:feature-pipeline` skill:
 
-1. Pick the execution mode:
-   - `auto` (default) - decide from the plan's complexity. Choose **subagent-driven**
-     unless the change is clearly trivial (roughly 1-2 tasks, single file / tightly
-     scoped, no new abstractions, no cross-cutting concerns).
+1. **Check the plan's risk tags first.** If any task is tagged `**Risk:** architectural`,
+   inline mode is **forbidden** - it would have you implement architectural work yourself,
+   past every model pin. Reject `/implement inline` in that case and say why.
+   Then pick the mode:
+   - `auto` (default) - **subagent-driven** unless no task is `architectural` *and* the
+     change is clearly trivial (1-2 tasks, single file, no new abstractions, no
+     cross-cutting concerns).
    - `subagent` - force `superpowers:subagent-driven-development`.
-   - `inline` - force `superpowers:executing-plans`.
-   State the chosen mode and the one-line reason. If `auto` and it's borderline, ask
-   before starting.
-2. Run the chosen superpowers skill, letting it drive TDD and per-task review.
+   - `inline` - force `superpowers:executing-plans`. Only valid with no `architectural` task.
+   State the chosen mode and the one-line reason. If `auto` and it's borderline, ask first.
+2. Run the chosen superpowers skill, letting it drive TDD and per-task review. Dispatch by
+   tier, per Stage 4 of the `ai-sdlc:feature-pipeline` skill: `architectural` ->
+   `impl-high-risk` (**no `model` argument**); `integration` / `mechanical` ->
+   `general-purpose` with an explicit standard / cheap model; task reviews of
+   `architectural` tasks and the final whole-branch review -> `reviewer-high-risk` (**no
+   `model` argument**). A batch takes the highest tag it contains. **Log the tier, agent,
+   and model for every dispatch** - e.g.
+   `Task 3: done (risk: architectural, agent: impl-high-risk, model: opus)`.
 3. On completion, sanity-check: tests pass, the diff matches the plan, no stray
    debug code. Honor the conventions of the current repository, e.g. coding style,
    architecture patterns, and testing practices.
