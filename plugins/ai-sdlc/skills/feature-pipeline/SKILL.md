@@ -167,12 +167,29 @@ planning until they approve.
 
 ## Stage 3 - Implementation plan
 
-Once the spec is approved, invoke **`superpowers:writing-plans`** on the approved
-spec. It breaks the design into small, verifiable tasks with exact file paths and
-verification steps.
+Once the spec is approved, dispatch **`plan-author`** (Opus, no `model` argument - see Model
+policy) with three things: the approved spec, the target plan path, and **the absolute path to
+`superpowers:writing-plans`' `SKILL.md`**. Resolve that path yourself (the superpowers plugin
+cache) and pass it - `plan-author` reads the skill rather than holding the `Skill` tool, which
+keeps the plan format tied to the version actually installed.
 
-Output: a saved implementation plan. Briefly report the task count and the files it
-expects to touch - this feeds the complexity decision next.
+`plan-author` writes the plan and tags **every task** with a risk tier that Stage 4 routes on:
+
+- **`architectural`** - a new abstraction or module boundary; a public interface or
+  backward-compatibility question; schema or migration work; auth, secrets, or data exposure;
+  concurrency or ordering; an irreversible or data-destructive step.
+- **`integration`** - multiple files whose interaction matters, no new boundary.
+- **`mechanical`** - one file or a repeated same-shape edit, with the code already in the plan.
+
+**Risk beats size:** a one-file auth change with verbatim code is `architectural`.
+
+**Print the tag table into the transcript** - task, tier, reason, one row each - before Stage 4
+begins. There is no gate between Stage 3 and Stage 4, so this table is the human's only
+chance to see the routing on an end-to-end run and interrupt if a tag is wrong. Report the
+task count and the files the plan expects to touch alongside it.
+
+If `plan-author` returns any task without a tier or without a reason, send it back. An
+untagged task costs you the expensive default in Stage 4.
 
 ## Stage 4 - Implementation
 
