@@ -50,7 +50,7 @@ that is intended.
 
 **The three tiers:**
 
-- **`architectural`** - any of: a new abstraction or module boundary; a public interface or
+- **`architectural`** - any of: a new abstraction or module boundary; a cross-cutting or performance-critical change; a public interface or
   backward-compatibility question; schema or migration work; auth, secrets, or data-exposure
   surface; concurrency or ordering; an irreversible or data-destructive step.
 - **`integration`** - multiple files whose interaction matters, or work needing
