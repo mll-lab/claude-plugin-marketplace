@@ -175,7 +175,7 @@ keeps the plan format tied to the version actually installed.
 
 `plan-author` writes the plan and tags **every task** with a risk tier that Stage 4 routes on:
 
-- **`architectural`** - a new abstraction or module boundary; a public interface or
+- **`architectural`** - a new abstraction or module boundary; a cross-cutting or performance-critical change; a public interface or
   backward-compatibility question; schema or migration work; auth, secrets, or data exposure;
   concurrency or ordering; an irreversible or data-destructive step.
 - **`integration`** - multiple files whose interaction matters, no new boundary.
