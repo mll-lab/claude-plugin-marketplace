@@ -193,19 +193,26 @@ untagged task costs you the expensive default in Stage 4.
 
 ## Stage 4 - Implementation
 
-**Inline mode is forbidden when any task is tagged `architectural`.**
+**Inline mode is forbidden when any task is tagged `architectural`, or when any task carries
+no risk tier at all.**
 `superpowers:executing-plans` means *you* implement, so on a Sonnet driver it routes
 architectural work straight past every pin in the Model policy. The inline trigger ("1-2
 tasks, a single file") overlaps heavily with single-file `architectural` triggers like an auth
-change or a migration, which is exactly when it is most tempting. Check the tags first.
+change or a migration, which is exactly when it is most tempting. An **untagged** plan is
+exposed the same way by omission: "no task is tagged `architectural`" is literally true of a
+plan with no tags at all, so a legacy, hand-written, or directly-invoked-`writing-plans` plan
+can walk an untagged single-file auth change or migration straight through the inline door.
+Before choosing a mode, tag the plan (see "A plan with no tags anywhere" below) - only once
+every task carries a risk tier can inline even be considered. Check the tags first.
 
 Decide the execution mode:
 
 - **Default - subagent-driven.** Use **`superpowers:subagent-driven-development`**. Required
-  whenever any task is tagged `architectural`.
-- **Inline (rare).** Use **`superpowers:executing-plans`** only when no task is tagged
-  `architectural` **and** the change is genuinely small: roughly 1-2 tasks, a single file or
-  tightly scoped area, no new abstractions, no cross-cutting concerns.
+  whenever any task is tagged `architectural`, or whenever any task lacks a risk tier and has
+  not yet been triaged.
+- **Inline (rare).** Use **`superpowers:executing-plans`** only when **every task carries a
+  risk tier and none is `architectural`**, **and** the change is genuinely small: roughly 1-2
+  tasks, a single file or tightly scoped area, no new abstractions, no cross-cutting concerns.
 
 State which mode you chose and the one-line reason. If it is a borderline call, ask before
 starting.
@@ -225,6 +232,11 @@ Model Selection section - with these ai-sdlc overrides:
 | Final whole-branch review | **`reviewer-high-risk`**, no `model` argument | Structural |
 | Fix-loop rounds 4-5 | per superpowers, one tier above the implementer that stuck. If that was `impl-high-risk`, there is no higher model - raise `effort` and sharpen the brief instead | Prose |
 
+**The final whole-branch review always goes to `reviewer-high-risk` (no `model` argument),
+regardless of execution mode** - an inline run still owes the branch this pass; skipping it
+because `subagent-driven-development` was never invoked would silently drop the highest-value
+review in the whole contract.
+
 **Batches.** Superpowers batches small same-shape work into one dispatch. A batch takes the
 **highest** tag it contains, and a batch containing an `architectural` task is not batched at
 all - that task gets its own dispatch and its own review.
@@ -236,11 +248,14 @@ dispatch `plan-author` to tag it, or fall back to superpowers' own Model Selecti
 and **say which, in the transcript.** A *single* untagged task inside an otherwise tagged plan
 is different: treat that one as `architectural`, because there the omission is a mistake.
 
-**Log what actually ran.** In the SDD ledger line for each task, and in your stage report:
+**Log what actually ran.** Append the tier, agent, and model to superpowers' existing
+completion line for each task - never replace it. Superpowers keys resume detection on the
+literal word `complete`; a line missing it gets that task silently re-dispatched after a
+compaction. In the SDD ledger line for each task, and in your stage report:
 
 ```
-Task 3: done (risk: architectural, agent: impl-high-risk, model: opus)
-Task 4: done (risk: mechanical, agent: general-purpose, model: haiku)
+Task 3: complete (commits a1b2c3d..e4f5a6b, review clean; risk: architectural, agent: impl-high-risk, model: opus)
+Task 4: complete (commits e4f5a6b..c9d0e1f, review clean; risk: mechanical, agent: general-purpose, model: haiku)
 ```
 
 The defect this pipeline was built to fix produced no visible difference in the transcript.
