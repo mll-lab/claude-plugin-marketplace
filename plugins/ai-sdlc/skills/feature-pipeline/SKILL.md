@@ -17,6 +17,14 @@ the loop.
   `superpowers:writing-plans`, `superpowers:subagent-driven-development`,
   `superpowers:executing-plans`). If a superpowers skill is missing, say so and stop
   rather than improvising a replacement.
+  **Minimum superpowers version: 6.3.0** - Stage 3's risk tags extend `writing-plans`'
+  task structure and Stage 4 uses `subagent-driven-development`'s tier vocabulary, so an
+  older version may not carry the sections this pipeline depends on.
+- The **ai-sdlc agents** this pipeline dispatches (`spec-author`, `spec-challenger`,
+  `plan-author`, `impl-high-risk`, `reviewer-high-risk`, `architect`) must be dispatchable.
+  If one is missing - a stale plugin cache, usually - **stop and say so.** Do not quietly do
+  its work inline: for the pinned agents that would land architectural work on the driver,
+  which is the exact failure this pipeline is built to prevent.
 - Stage 6 uses the **`ai-sdlc:copilot-loop`** skill, which drives
   Copilot directly via `gh` - no separate Copilot skill needs to be installed.
 - Jira access (the Jira MCP tools, `mcp__*atlassian*`) for fetching the issue.
@@ -33,6 +41,54 @@ the loop.
   skills already do this) so each stage has a durable input.
 - **Respect repository conventions** when you (or a subagent) write code, honor the
   existing coding standards and practices as documented in the repository.
+
+## Model policy
+
+This pipeline is **driver-agnostic**. Sonnet is the intended driver; Opus works too (the
+driver is then simply stronger than it needs to be). What must not vary is that
+architectural and high-risk work runs on Opus - so that guarantee lives in agent
+frontmatter, not in the driver's judgement.
+
+**How a subagent's model resolves**, in order:
+
+1. A `model` argument passed at dispatch time wins.
+2. Otherwise the agent definition's frontmatter `model:` applies.
+3. Otherwise the subagent inherits this session's model - unless a default subagent model
+   is configured, which then wins.
+
+**So: never pass `model` when dispatching a pinned ai-sdlc agent.** Passing one silently
+overrides the pin, which is the entire mechanism. This is a deliberate exception to
+`superpowers:subagent-driven-development`'s "always specify the model explicitly" rule, and
+it applies *only* to the pinned agents. When you dispatch `general-purpose`, that rule
+stands - state the model, because an omitted one inherits the driver.
+
+**Pinned agents** (all `model: opus`): `spec-author`, `spec-challenger`, `plan-author`,
+`impl-high-risk`, `reviewer-high-risk`, `architect`.
+
+**What is enforced structurally, and what is not.** The pins cover Stages 1-3, the
+architectural implementers, and the high-value reviews. They do **not** cover the
+`integration` and `mechanical` implementers, the batching rule, or the untagged-plan rule:
+`superpowers:subagent-driven-development` dispatches `general-purpose` with a model argument
+there, so those depend on this prose and on your judgement. The asymmetry is deliberate -
+pin in the direction of escalation. A mechanical task that accidentally runs on Opus wastes
+money; an architectural task that accidentally runs on Sonnet ships bad architecture into a
+PR.
+
+**Escalate to `architect`** from any stage when the work turns out to involve: a new
+abstraction or module boundary the plan did not anticipate; a cross-cutting change; schema
+or migration work; auth, secrets, or data exposure; a public interface or
+backward-compatibility question; concurrency or ordering; a performance-critical path; an
+irreversible or data-destructive step; or **the plan turning out to be wrong**. `architect`
+advises a ruling that you still make and still record - it is never a reason to stall.
+
+**If Opus is unavailable** (not on the plan, or rate-limited), stop and say so. Do not fall
+back to a cheaper model for architectural work. This pipeline's founding defect was a
+downgrade that produced no error, no warning, and no visible difference in the transcript -
+a silent fallback would recreate it exactly.
+
+**Record what actually ran.** For every dispatch, log the risk tier, the agent, and the
+model - in the ledger line and in your stage report. A policy with no runtime evidence
+cannot be checked on any given run.
 
 ---
 
