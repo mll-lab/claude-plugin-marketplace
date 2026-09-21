@@ -316,15 +316,19 @@ threads were pushed back on and why, and any items still open (only possible if 
 
 ## Quick reference
 
-| Stage | Skill / agent invoked | Gate |
-|-------|-----------------------|------|
-| 0 Intake | Jira MCP | - |
-| 1 Spec | `superpowers:brainstorming` | - |
-| 2 Challenge | `spec-challenger` (Opus subagent) | GATE 1: spec approval |
-| 3 Plan | `superpowers:writing-plans` | - |
-| 4 Implement | `superpowers:subagent-driven-development` (or `:executing-plans`) | - |
-| 5 PR | `gh pr create` | - |
-| 6 Review loop | `ai-sdlc:copilot-loop` | GATE 2: loop exit |
+| Stage | Skill / agent invoked | Model | Gate |
+|-------|-----------------------|-------|------|
+| 0 Intake | Jira MCP | driver | - |
+| 1 Spec | `superpowers:brainstorming` (driver) + `spec-author` | driver + **opus** (pinned) | - |
+| 2 Challenge | `spec-challenger`, fold-in via `spec-author` | **opus** (pinned) | GATE 1: spec approval |
+| 3 Plan | `plan-author` (reads `superpowers:writing-plans`) | **opus** (pinned) | - |
+| 4 Implement | `superpowers:subagent-driven-development`; `impl-high-risk` / `reviewer-high-risk` for `architectural` work, `general-purpose` otherwise | **opus** (pinned) / tiered by risk tag | - |
+| 5 PR | `gh pr create` | driver | - |
+| 6 Review loop | `ai-sdlc:copilot-loop`, escalating to `architect` | driver + **opus** (pinned) | GATE 2: loop exit |
+| any | `architect` (escape hatch) | **opus** (pinned) | - |
+
+"Pinned" means the model is set in the agent's frontmatter - so **do not pass a `model`
+argument when dispatching it.** See Model policy.
 
 ---
 

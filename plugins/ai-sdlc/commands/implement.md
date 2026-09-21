@@ -25,8 +25,9 @@ Run Stage 4 of the `ai-sdlc:feature-pipeline` skill:
    tier, per Stage 4 of the `ai-sdlc:feature-pipeline` skill: `architectural` ->
    `impl-high-risk` (**no `model` argument**); `integration` / `mechanical` ->
    `general-purpose` with an explicit standard / cheap model; task reviews of
-   `architectural` tasks and the final whole-branch review -> `reviewer-high-risk` (**no
-   `model` argument**). A batch takes the highest tag it contains. **Append the tier, agent,
+   `architectural` tasks and the final whole-branch review (**regardless of execution
+   mode**) -> `reviewer-high-risk` (**no `model` argument**). A batch takes the highest tag it
+   contains. **Append the tier, agent,
    and model to superpowers' completion line for every dispatch** - never replace that line;
    superpowers keys resume detection on the literal word `complete` - e.g.
    `Task 3: complete (commits a1b2c3d..e4f5a6b, review clean; risk: architectural, agent: impl-high-risk, model: opus)`.
