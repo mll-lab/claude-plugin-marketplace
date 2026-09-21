@@ -14,7 +14,9 @@ cannot build the wrong thing from it.
 
 ## What you are given
 
-- **A decision record** (path). Append-only, written by the orchestrator. `## Intake` holds
+- **Optionally a decision record** (path) - always present on a pipeline run, sometimes absent
+  when the spec came from outside it. Read it if given. Append-only, written by the
+  orchestrator. `## Intake` holds
   the problem statement and the issue's verbatim acceptance criteria; `## Q&A` holds what the
   human was asked and answered; `## Approvals` holds which design sections they signed off;
   `## Revisions` holds what they want changed. Read all of it.
@@ -23,7 +25,10 @@ cannot build the wrong thing from it.
 
 The acceptance criteria in `## Intake` are the requirements. If they are missing, say so
 rather than inferring them - you have no issue-tracker access, and a spec built on a
-paraphrase of requirements is how acceptance criteria go unbuilt.
+paraphrase of requirements is how acceptance criteria go unbuilt. If there is no record at all,
+or it only points at the spec, then **the existing spec is the requirements** - revise it
+against the revisions you were handed and list under `Unresolved` what a record would have
+settled. Degrade that way rather than stalling; still never invent a requirement.
 
 ## Read the repository first
 

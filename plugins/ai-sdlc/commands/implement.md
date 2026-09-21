@@ -11,9 +11,12 @@ Run Stage 4 of the `ai-sdlc:feature-pipeline` skill:
    `**Risk:** architectural`, or any task carries no risk tier at all, inline mode is
    **forbidden** - it would have you implement architectural (or untriaged) work yourself,
    past every model pin. An untagged plan satisfies "no task is architectural" by omission,
-   not by review, so triage it first: tag it via `plan-author`, or apply superpowers' own
-   Model Selection signals and say which. Only once every task carries a risk tier and none
-   is `architectural` can you pick a mode:
+   not by review, so give it tiers first: tag it via `plan-author`, or - **only once you have
+   read every task and none of them meets an architectural trigger** - apply superpowers' own
+   Model Selection signals, and say which. Those signals are *size* signals and risk beats size,
+   so if a task does meet a trigger the fallback is closed: tag the plan, or route that task to
+   `impl-high-risk`. Only once every task carries a risk tier and none is `architectural`
+   can inline be considered at all. Then pick a mode:
    - `auto` (default) - **subagent-driven** unless every task carries a risk tier, none is
      `architectural`, *and* the change is clearly trivial (1-2 tasks, single file, no new
      abstractions, no cross-cutting concerns).
@@ -27,10 +30,14 @@ Run Stage 4 of the `ai-sdlc:feature-pipeline` skill:
    `general-purpose` with an explicit standard / cheap model; task reviews of
    `architectural` tasks and the final whole-branch review (**regardless of execution
    mode**) -> `reviewer-high-risk` (**no `model` argument**). A batch takes the highest tag it
-   contains. **Append the tier, agent,
+   contains. The **fix wave** superpowers dispatches for the final review's findings goes to
+   `impl-high-risk` (**no `model` argument**) whenever any finding is architectural - it is the
+   last code on the branch and nothing reviews it again. **Append the tier, agent,
    and model to superpowers' completion line for every dispatch** - never replace that line;
    superpowers keys resume detection on the literal word `complete` - e.g.
    `Task 3: complete (commits a1b2c3d..e4f5a6b, review clean; risk: architectural, agent: impl-high-risk, model: opus)`.
+   A dispatch with no task - the fix wave - has no completion line to extend, so give it its own
+   line carrying the same agent and model.
 3. On completion, sanity-check: tests pass, the diff matches the plan, no stray
    debug code. Honor the conventions of the current repository, e.g. coding style,
    architecture patterns, and testing practices.

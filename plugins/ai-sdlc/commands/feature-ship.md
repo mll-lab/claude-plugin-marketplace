@@ -16,8 +16,10 @@ every stage in order:
    tier. Print the tag table.
 4. Implementation via `superpowers:subagent-driven-development`, dispatching by risk tier
    (`superpowers:executing-plans` only if trivial **and** every task carries a risk tier with
-   none tagged `architectural` - an untagged or partially-tagged plan must be tagged or
-   triaged before a mode is chosen). State the mode and why.
+   none tagged `architectural` - an untagged or partially-tagged plan must carry a tier on
+   every task before a mode is chosen, and falling back to superpowers' size signals instead
+   of tagging is only open once you have read every task and none meets an architectural trigger).
+   State the mode and why.
 5. Open the PR with `gh pr create`, linking the issue.
 6. Run the `ai-sdlc:copilot-loop` (max 5 rounds) -> **STOP at GATE 2 and
    report**.

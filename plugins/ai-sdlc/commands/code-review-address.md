@@ -13,10 +13,12 @@ Follow the `ai-sdlc:copilot-loop` skill. For up to **5 rounds**:
 2. Classify each: justified / unjustified / needs-human-judgment.
 3. Justified -> fix in code and reply; unjustified -> reply with a respectful
    rationale, no code change; needs-judgment -> defer and flag.
-   **Escalate to `ai-sdlc:architect`** (no `model` argument) *before fixing* when a
-   justified thread's reason is architectural, and act on its recommendation - or dispatch it
-   to annotate a needs-judgment entry, since it has no `gh` access, so hand over the thread
-   and diff as a file. A needs-judgment thread stays deferred either way.
+   When a justified thread's reason is architectural, **dispatch `ai-sdlc:impl-high-risk` to
+   make the fix** (no `model` argument), consulting **`ai-sdlc:architect`** (same rule) first
+   if the shape of the fix is in question - `architect` cannot edit source, so acting on its
+   recommendation yourself would land the architectural fix on the driver. You may also
+   dispatch `architect` to annotate a needs-judgment entry; it has no `gh` access, so hand over
+   the thread and diff as a file. A needs-judgment thread stays deferred either way.
 4. Resolve every actioned thread. Commit and push, then **re-request** Copilot's
    review (a push alone does not reliably re-trigger it - see the skill).
 5. Stop when a round starts with no actionable threads, or after 5 rounds.

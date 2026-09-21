@@ -209,7 +209,8 @@ Decide the execution mode:
 
 - **Default - subagent-driven.** Use **`superpowers:subagent-driven-development`**. Required
   whenever any task is tagged `architectural`, or whenever any task lacks a risk tier and has
-  not yet been triaged.
+  not yet been given one. Triage clears this only when it ends with a tier written against every
+  task; a judgement *about* the plan that leaves the tasks untiered does not.
 - **Inline (rare).** Use **`superpowers:executing-plans`** only when **every task carries a
   risk tier and none is `architectural`**, **and** the change is genuinely small: roughly 1-2
   tasks, a single file or tightly scoped area, no new abstractions, no cross-cutting concerns.
@@ -230,12 +231,19 @@ Model Selection section - with these ai-sdlc overrides:
 | Task review of an `architectural` task | **`reviewer-high-risk`**, no `model` argument | Structural |
 | Task review of other tasks | per superpowers, scaled to the diff | Prose |
 | Final whole-branch review | **`reviewer-high-risk`**, no `model` argument | Structural |
-| Fix-loop rounds 4-5 | per superpowers, one tier above the implementer that stuck. If that was `impl-high-risk`, there is no higher model - raise `effort` and sharpen the brief instead | Prose |
+| Fix wave after the final whole-branch review | **`impl-high-risk`**, no `model` argument, whenever any finding is architectural; otherwise per superpowers | Prose - your judgement |
+| Fix-loop rounds 4-5 | per superpowers, one tier above the implementer that stuck. If that was `impl-high-risk`, there is no higher model and `effort` is fixed in its frontmatter - sharpen the brief, split the task, or consult `architect` instead | Prose |
 
 **The final whole-branch review always goes to `reviewer-high-risk` (no `model` argument),
 regardless of execution mode** - an inline run still owes the branch this pass; skipping it
 because `subagent-driven-development` was never invoked would silently drop the highest-value
 review in the whole contract.
+
+**And its findings come back as one fix dispatch** - `superpowers:subagent-driven-development`
+sends the complete findings list to a single fix subagent. Route that wave to
+**`impl-high-risk`** (no `model` argument) whenever any finding is architectural: it is the
+last code on the branch, nothing reviews it again, and a finding only Opus caught is the worst
+possible thing to hand to the cheapest model.
 
 **Batches.** Superpowers batches small same-shape work into one dispatch. A batch takes the
 **highest** tag it contains, and a batch containing an `architectural` task is not batched at
@@ -244,9 +252,13 @@ all - that task gets its own dispatch and its own review.
 **A plan with no tags anywhere** predates this contract - hand-written, or from
 `superpowers:writing-plans` invoked directly. Do **not** treat it as all-`architectural`; that
 would send an entire legacy plan to Opus and invert the point of this pipeline. Either
-dispatch `plan-author` to tag it, or fall back to superpowers' own Model Selection signals -
-and **say which, in the transcript.** A *single* untagged task inside an otherwise tagged plan
-is different: treat that one as `architectural`, because there the omission is a mistake.
+dispatch `plan-author` to tag it, or - **only once you have read every task and none of them
+meets an architectural trigger** - fall back to superpowers' own Model Selection signals, and
+**say which, in the transcript.** Superpowers' signals are *size* signals ("1-2 files with a
+complete spec"), and **risk beats size**: if any task does meet an architectural trigger, that
+fallback is closed - tag the plan, or route that task to `impl-high-risk` (no `model`
+argument). A *single* untagged task inside an otherwise tagged plan is different: treat that
+one as `architectural`, because there the omission is a mistake.
 
 **Log what actually ran.** Append the tier, agent, and model to superpowers' existing
 completion line for each task - never replace it. Superpowers keys resume detection on the
@@ -257,6 +269,17 @@ compaction. In the SDD ledger line for each task, and in your stage report:
 Task 3: complete (commits a1b2c3d..e4f5a6b, review clean; risk: architectural, agent: impl-high-risk, model: opus)
 Task 4: complete (commits e4f5a6b..c9d0e1f, review clean; risk: mechanical, agent: general-purpose, model: haiku)
 ```
+
+**Non-task dispatches get their own line.** The final-review fix wave and Stage 6's fixes have
+no task completion line to attach to, so write one of your own recording the same triple - the
+dispatch, the agent, and the model:
+
+```
+Final-review fix wave: 3 findings, 1 architectural (agent: impl-high-risk, model: opus)
+```
+
+Without it the one dispatch most likely to be silently downgraded is the one dispatch with no
+record at all.
 
 The defect this pipeline was built to fix produced no visible difference in the transcript.
 These lines are what make it visible, and what lets anyone check afterwards that the policy

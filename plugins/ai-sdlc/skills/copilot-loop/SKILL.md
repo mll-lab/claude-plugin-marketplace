@@ -113,10 +113,14 @@ For each round:
      (the reply command in [github-threads.md](github-threads.md)) briefly noting
      what you changed - **as a note for the human author** (Copilot will not read it).
      If the *reason* a thread is justified is architectural - a boundary, an interface, a
-     migration, auth, concurrency, an irreversible step - dispatch **`ai-sdlc:architect`**
-     (no `model` argument) before fixing, and act on its recommendation. Reviewing on Sonnet
-     and then making an architectural fix on Sonnet is the same silent downgrade the
-     pipeline's Model policy exists to prevent.
+     migration, auth, concurrency, an irreversible step - **dispatch `ai-sdlc:impl-high-risk`
+     to make the fix** (no `model` argument - one passed at dispatch overrides its Opus pin),
+     consulting **`ai-sdlc:architect`** (same rule) first when the shape of the fix is itself
+     in question. `architect` has no `Edit` and never touches source, so "act on its
+     recommendation" yourself means you write the fix: reviewing on Sonnet and then making an
+     architectural fix on Sonnet is the same silent downgrade the pipeline's Model policy
+     exists to prevent. These fixes land after `reviewer-high-risk` has already run, so
+     nothing Opus-grade will review them afterwards.
    - *Unjustified* -> do **not** change code. Reply with a short, respectful
      rationale for the human record explaining why the suggestion does not apply here.
      Be specific (cite the convention, the constraint, or the false-positive reason).
