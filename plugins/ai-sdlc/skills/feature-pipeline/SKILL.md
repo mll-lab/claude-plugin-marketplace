@@ -109,12 +109,39 @@ cannot be checked on any given run.
 
 ## Stage 1 - Spec (brainstorm)
 
-Invoke **`superpowers:brainstorming`** with the intake summary as the seed. Let it
-run its Socratic process and produce the design document / spec. Do not skip its
-questions - answer from the Jira context where you can, and surface to the human
-any question you cannot answer confidently.
+Brainstorming is a dialogue with the human, and a subagent cannot have it. So this stage
+splits: **you run the conversation, `spec-author` (Opus) makes the architectural calls and
+writes the document.**
 
-Output of this stage: a saved spec/design document.
+Invoke **`superpowers:brainstorming`** and follow its process, with two changes.
+
+**First, the decision record.** Create `.local/pipeline/<issue-id>/decisions.md` and append
+to it as you go - never truncate it. Sections, in order:
+
+- `## Intake` - the Stage 0 restatement **plus the issue's acceptance criteria verbatim**.
+  `spec-author` has no Jira access; if the criteria reach it only as your paraphrase, they
+  are one lossy hop from being silently dropped.
+- `## Q&A` - one `**Q:** / **A:**` pair per exchange with the human.
+- `## Approvals` - which design sections they approved, and any conditions.
+- `## Revisions` - each change they ask for after reading a draft.
+
+**Second, two dispatches of `spec-author`** (no `model` argument - see Model policy):
+
+1. **`MODE: APPROACHES`** - it reads the decision record and the repo, and returns 2-3
+   approaches with trade-offs, a recommendation, and a section outline.
+2. You present those to the human and collect the per-section approval
+   `superpowers:brainstorming` requires, appending each to `## Approvals`.
+3. **`MODE: WRITE`** - it writes the spec at the path you give it.
+4. You present the spec. **Revisions go back to `spec-author`** (`MODE: WRITE` again, with the
+   request appended to `## Revisions`) - never patch it yourself. A spec Opus wrote and you
+   then edited drifts in architectural assumption, and the drift is invisible in a diff.
+
+**If `superpowers:brainstorming` classifies the request as spike or bounded**, both of which
+deliberately produce no spec file, **stop and report that.** A Jira issue that turns out to be
+a one-file change does not need Stages 2-4; saying so is a correct outcome, not a failure. Do
+not force a spec into existence to keep the pipeline moving.
+
+Output of this stage: a saved spec/design document, and a decision record that explains it.
 
 ## Stage 2 - Adversarial challenge
 
@@ -122,8 +149,11 @@ Output of this stage: a saved spec/design document.
    input. It returns a structured critique with severity-tagged findings
    (BLOCKER / MAJOR / MINOR / QUESTION) and an overall verdict.
 2. Triage the critique:
-   - **Justified findings** -> fold the fix into the spec. Edit the spec document
-     in place.
+   - **Justified findings** -> dispatch **`spec-author`** (`MODE: WRITE`, no `model`
+     argument) with the finding appended to the decision record's `## Revisions`. **You
+     decide what is justified; it applies the change.** Folding in a BLOCKER is higher-stakes
+     architectural editing than any revision request, and Stage 1's single-author rule holds
+     here for the same reason: a spec with one author stays internally consistent.
    - **Unjustified or out-of-scope findings** -> note them with a one-line reason
      for not acting, so the human can see what was considered and rejected.
 3. Produce a short changelog: what the challenge surfaced and what you changed.
