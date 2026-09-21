@@ -112,11 +112,20 @@ For each round:
    - *Justified* -> make the fix in code. Keep each fix focused. Reply on the thread
      (the reply command in [github-threads.md](github-threads.md)) briefly noting
      what you changed - **as a note for the human author** (Copilot will not read it).
+     If the *reason* a thread is justified is architectural - a boundary, an interface, a
+     migration, auth, concurrency, an irreversible step - dispatch **`ai-sdlc:architect`**
+     (no `model` argument) before fixing, and act on its recommendation. Reviewing on Sonnet
+     and then making an architectural fix on Sonnet is the same silent downgrade the
+     pipeline's Model policy exists to prevent.
    - *Unjustified* -> do **not** change code. Reply with a short, respectful
      rationale for the human record explaining why the suggestion does not apply here.
      Be specific (cite the convention, the constraint, or the false-positive reason).
-   - *Needs human judgment* -> leave a neutral note that it is deferred to the author,
-     and record it for the exit report.
+   - *Needs human judgment* -> leave a neutral note that it is deferred to the author, and
+     record it for the exit report. You may dispatch **`ai-sdlc:architect`** (no `model`
+     argument) to **annotate** the entry with options and a recommendation - hand over the
+     thread text and the diff as a file, since it has no `gh` access. The deferral still
+     stands: this class exists because the human should decide, and an Opus opinion does not
+     convert it into your decision to make.
 
 5. **Resolve threads.** Resolve every thread you have actioned or deduped (the resolve
    command in [github-threads.md](github-threads.md)) - after the fix (justified) or
