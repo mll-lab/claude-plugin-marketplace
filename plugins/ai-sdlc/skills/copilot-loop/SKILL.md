@@ -120,24 +120,11 @@ For each round:
      step 6. Reply on the thread
      (the reply command in [github-threads.md](github-threads.md)) briefly noting
      what you changed - **as a note for the human author** (Copilot will not read it).
-     If the *reason* a thread is justified is architectural - a boundary, an interface, a
-     migration, auth, concurrency, an irreversible step - **dispatch `ai-sdlc:impl-high-risk`
-     to make the fix** (no `model` argument - one passed at dispatch overrides its Opus pin),
-     consulting **`ai-sdlc:architect`** (same rule) first when the shape of the fix is itself
-     in question. `architect` has no `Edit` and never touches source, so "act on its
-     recommendation" yourself means you write the fix: reviewing on Sonnet and then making an
-     architectural fix on Sonnet is the same silent downgrade the pipeline's Model policy
-     exists to prevent. These fixes land after `reviewer-high-risk` has already run, so
-     nothing Opus-grade will review them afterwards.
    - *Unjustified* -> do **not** change code. Reply with a short, respectful
      rationale for the human record explaining why the suggestion does not apply here.
      Be specific (cite the convention, the constraint, or the false-positive reason).
-   - *Needs human judgment* -> leave a neutral note that it is deferred to the author, and
-     record it for the exit report. You may dispatch **`ai-sdlc:architect`** (no `model`
-     argument) to **annotate** the entry with options and a recommendation - hand over the
-     thread text and the diff as a file, since it has no `gh` access. The deferral still
-     stands: this class exists because the human should decide, and an Opus opinion does not
-     convert it into your decision to make.
+   - *Needs human judgment* -> leave a neutral note that it is deferred to the author,
+     and record it for the exit report.
 
 5. **Resolve threads.** Resolve every thread you have actioned or deduped (the resolve
    command in [github-threads.md](github-threads.md)) - after the fix (justified) or
@@ -204,10 +191,9 @@ If they do:
   item, then address the batch and push **once**. A fix-and-push per request is the same
   commit cascade step 6 forbids, and it is worse here because Copilot may re-review each
   push and reopen the loop you just left.
-- Their changes arrive after `reviewer-high-risk` has run, so nothing Opus-grade will
-  review them. If any of them is architectural - a boundary, an interface, a migration,
-  auth, concurrency, an irreversible step - dispatch **`ai-sdlc:impl-high-risk`** (no
-  `model` argument - one passed at dispatch overrides its Opus pin).
+- Their changes arrive after the branch's final review has run, so nothing will review
+  them afterwards. Treat anything architectural - a boundary, an interface, a migration,
+  auth, concurrency, an irreversible step - with that in mind, and say so in the report.
 - Then report as below, noting what you changed at their request.
 
 If they have nothing to add, report immediately. Do not invent work to fill the pause.
