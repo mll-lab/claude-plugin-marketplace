@@ -1,7 +1,7 @@
 ---
 name: claude-md-audit
-description: Use when auditing, reviewing, improving, cleaning up, tightening, or shrinking a CLAUDE.md, .claude.local.md, or ~/.claude/CLAUDE.md - including when one has grown long, repetitive, or stale, when sessions seem to ignore what it says, when deciding whether a rule belongs in CLAUDE.md at all, or when the user mentions CLAUDE.md maintenance or project-memory optimization.
-tools: Read, Glob, Grep, Bash, Edit
+description: Use when auditing, reviewing, shrinking, or tightening a CLAUDE.md, CLAUDE.local.md, or ~/.claude/CLAUDE.md - including when one has grown long, repetitive, or stale, when sessions seem to ignore what it says, or when deciding whether a rule belongs in CLAUDE.md at all. This is a subtractive audit: it treats every line as context budget spent on every turn, scores the file against fixed axes, gives every line an explicit verdict (keep / cut / move to enforcement / relocate / rewrite), and always reports before changing anything. Prefer it over a general CLAUDE.md improver when the goal is a shorter, higher-signal file rather than a more thoroughly documented one.
+allowed-tools: Read, Glob, Grep, Bash, Edit, Write
 ---
 
 # CLAUDE.md audit
@@ -114,7 +114,7 @@ audit still produces additions. Every `GAP` you report comes from here.
 ### Phase 1 - Discovery
 
 ```bash
-find . -name "CLAUDE.md" -o -name ".claude.md" -o -name ".claude.local.md" 2>/dev/null | head -50
+find . -name "CLAUDE.md" -o -name "CLAUDE.local.md" 2>/dev/null | head -50
 ```
 
 Also check `~/.claude/CLAUDE.md` when the audit is about the user's own setup rather than one
@@ -123,7 +123,7 @@ repository.
 | Type | Location | Purpose |
 |------|----------|---------|
 | Project root | `./CLAUDE.md` | Primary project context (committed, shared with the team) |
-| Local overrides | `./.claude.local.md` | Personal settings (gitignored, not shared) |
+| Local overrides | `./CLAUDE.local.md` | Personal settings (gitignored, not shared) |
 | Global defaults | `~/.claude/CLAUDE.md` | User-wide, across all projects |
 | Package-specific | `./packages/*/CLAUDE.md` | Module-level context in monorepos |
 | Subdirectory | any nested location | Feature or domain-specific context |
@@ -137,11 +137,21 @@ the code makes obvious, and you cannot apply test 1 without knowing the conventi
 the manifest, the directory layout, and the config files before judging a single line.
 
 **And run what the file claims works.** Reading is not enough for the Currency axis: a
-documented command can be confidently wrong in a way no amount of reading reveals. Execute the
-build, test, and lint commands the file asserts — they are cheap and safe, and a script that
-errors out is both a stale line to cut *and* a gap worth reporting. In testing, running
-`npm test` was what revealed a documented `--runInBand` flag that made the test runner crash
-on startup; an audit that only read `package.json` recommended keeping it.
+documented command can be confidently wrong in a way no amount of reading reveals.
+
+Start with the documented install command — it is a claim in the file too, so if it fails,
+that is a stale line to report. Install means the command the file documents, not improvising
+toward a working environment: if `npm ci` fails, that is the finding, not a cue to try
+`npm install`, then `yarn`, then deleting the lockfile. Where setup needs something you cannot
+create, such as real credentials or a running service, skip those commands and say so rather
+than scoring the file on failures the missing setup caused.
+
+Then execute the build, test, and lint commands the file asserts, and **read the failure rather
+than the exit code**: a command that cannot be found, or whose documented flags are rejected, is
+a stale line to cut. A command that runs and reports a failing project is not a currency
+finding — the line is right and the repo is red. In testing, running `npm test` was what
+revealed a documented `--runInBand` flag that made the test runner crash on startup; an audit
+that only read `package.json` recommended keeping it.
 
 Do not run anything destructive, anything that writes outside the working tree, or anything
 that touches a real environment. Build, test, lint, typecheck — not deploy, migrate, or seed.
@@ -162,6 +172,7 @@ buries a true reason, and the user is reading these to decide whether to trust y
 | `KEEP` | Passes all three inverses. Say which one earns it. |
 | `CUT (test 1)` | The model gets this right without being told. |
 | `MOVE (test 2)` | Belongs in a hook / linter / CI check / setting. Include the config. |
+| `RELOCATE` | Right content, wrong file. Name the destination file. |
 | `CUT (test 3)` | One grep answers it. **Name the grep.** |
 | `REWRITE` | The content earns its place; the wording does not - too vague, too long, ambiguous, or stale. Give the replacement line. |
 | `GAP` | Not a line in the file: expensive-to-derive knowledge that is missing (test 3's inverse). |
@@ -182,7 +193,7 @@ it, and there is no point naming a grep for a line that should not exist either 
 
 ### Summary
 - Files audited: X
-- Lines: X kept · X cut · X moved to enforcement · X rewritten · X gaps found
+- Lines: X kept · X cut · X moved to enforcement · X relocated · X rewritten · X gaps found
 - Estimated reduction: X lines (X%)
 
 ### ./CLAUDE.md
@@ -205,8 +216,9 @@ it, and there is no point naming a grep for a line that should not exist either 
 | 18-24 | `## Commands` table | CUT (test 3) | `package.json` scripts - one read |
 | 31 | "Never commit .env" | MOVE (test 2) | Must be blocked, not suggested - see config below |
 | 40 | "Migrations are irreversible in prod" | KEEP | Model would get this wrong; not in the code |
+| 44 | "I prefer terse commit messages" | RELOCATE | Personal preference in a committed file - to `./CLAUDE.local.md` |
 
-#### Proposed enforcement (from MOVE verdicts)
+#### Proposed enforcement (from `MOVE (test 2)` verdicts)
 [concrete config per moved rule]
 
 #### Gaps - expensive knowledge that should be here
@@ -271,9 +283,9 @@ deleting someone's work you under-cut. Both are failures.
 - **Preserve the user's voice** in lines that survive. This is their file.
 - **One concept per line.** Prefer a dense line to a paragraph, but do not compress two
   unrelated facts into one line to shorten the count.
-- **`.claude.local.md` for personal preference**, root `CLAUDE.md` for the team, and
+- **`CLAUDE.local.md` for personal preference**, root `CLAUDE.md` for the team, and
   `~/.claude/CLAUDE.md` for anything true across all the user's projects. A line in the wrong
-  one of those three is a `MOVE`, and the cheapest fix in the whole audit.
+  one of those three is a `RELOCATE`, and the cheapest fix in the whole audit.
 
 ## References
 

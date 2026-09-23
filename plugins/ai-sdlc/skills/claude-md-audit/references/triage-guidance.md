@@ -216,7 +216,8 @@ Before finalising any proposed change:
 
 - [ ] Every verdict cites a test, or an inverse for a `KEEP`
 - [ ] Every `CUT (test 3)` names the grep or file that answers it
-- [ ] Every `MOVE` carries concrete config, not just a mechanism name
+- [ ] Every `MOVE (test 2)` carries concrete config, not just a mechanism name
+- [ ] Every `RELOCATE` names the destination file
 - [ ] Every `GAP` explains why deriving it is *not* affordable
 - [ ] No line cut merely for length
 - [ ] No line cut that you could not explain the purpose of

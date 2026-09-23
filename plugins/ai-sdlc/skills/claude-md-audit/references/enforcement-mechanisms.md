@@ -115,9 +115,10 @@ deletes every style line in the file.
 }
 ```
 
-Replaces: *"never edit files under `generated/` — regenerate instead"*. The hook exits
-non-zero with an explanation on stderr, and the agent re-issues correctly. Prose could only
-ask.
+Replaces: *"never edit files under `generated/` — regenerate instead"*. The hook exits **2**
+with an explanation on stderr, which blocks the call and hands the message to the agent so it
+re-issues correctly. Any other non-zero exit is a non-blocking error — the edit proceeds.
+Prose could only ask.
 
 See `update-config` for the full hook schema and event list.
 
