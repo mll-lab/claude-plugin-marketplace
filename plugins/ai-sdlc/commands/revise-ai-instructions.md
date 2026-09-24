@@ -58,6 +58,14 @@ State the surviving reason for each addition. An addition with no stated reason 
 | Personal preference, this repo | `./CLAUDE.local.md` (gitignored) |
 | True across all your projects | `~/.claude/CLAUDE.md` |
 | Only about one package | that package's `CLAUDE.md` |
+| Needed by tooling that reads `AGENTS.md` | `./AGENTS.md` (committed) |
+
+**Pick by which agent needs the line, not by which file you found first.** Step 1 discovers
+`AGENTS.md` as well, so a learning can be about tooling that never reads a `CLAUDE.md`. Confirm
+what actually loads the repo's `AGENTS.md` before writing there - if nothing does, that is the
+finding, and the file is out of scope rather than a destination. If both readers need the line,
+state it once in whichever file they both load rather than copying it into two: a duplicated
+line pays its per-turn cost twice and the copies drift apart.
 
 `CLAUDE.local.md` is the filename Claude Code loads for local scope - **not** `.claude.local.md`,
 which nothing reads. If you write a personal preference into the dotted spelling it will
