@@ -33,11 +33,6 @@ the loop.
   skills already do this) so each stage has a durable input.
 - **Respect repository conventions** when you (or a subagent) write code, honor the
   existing coding standards and practices as documented in the repository.
-- **Say the comment budget out loud in every dispatch.** A subagent loads the
-  repository's `CLAUDE.md`, but superpowers' `implementer-prompt.md` says nothing about
-  comments and does tell it to "improve code you're touching the way a good developer
-  would". Comment density is therefore the convention that reliably gets lost. Put the
-  budget in the dispatch itself (Stage 4), not only in the repository's files.
 
 ---
 
@@ -93,6 +88,12 @@ verification steps.
 Output: a saved implementation plan. Briefly report the task count and the files it
 expects to touch - this feeds the complexity decision next.
 
+If the repository has a comment rule, copy it into the plan's `## Global Constraints`.
+Implementers then treat it as a requirement, and the task reviewer checks it as a spec
+item, so a breach enters the fix loop. A breach elsewhere is at most a Minor, which the
+loop never fixes. Prose only nudges density; a repository that needs the rule enforced
+should add comment-ratio hooks, which also fire inside subagents.
+
 ## Stage 4 - Implementation
 
 Decide the execution mode from the plan's complexity:
@@ -106,29 +107,8 @@ Decide the execution mode from the plan's complexity:
 State which mode you chose and the one-line reason. If it is a borderline call,
 ask before starting. Let the chosen superpowers skill drive TDD and per-task review.
 
-### The comment budget in a dispatch
-
-`superpowers:subagent-driven-development` assembles each implementer prompt from
-`implementer-prompt.md`. That template has no comment guidance, and it caps the
-subagent's reply at 15 lines. So two things belong in the dispatch you write:
-
-- **In the prompt's `## Context` section**, state the budget: no comments by default. A
-  comment earns its place only by stating a constraint a future editor would otherwise
-  violate - not by restating the adjacent line, repeating what the name or the raise site
-  already says, or recording why it refactored. A docstring only where the signature does
-  not already convey the behaviour.
-- **In the report file, never the short reply**, ask for every comment it kept with a
-  one-line justification. The 15-line cap has no room for a list, and a comment that must
-  be defended in writing does not get written reflexively.
-
-**Before a fan-out, write the shared rationale yourself.** Parallel implementers cannot
-see each other, so each restates the reason its siblings need too - on one branch a
-single 8-line explanation reached nine sites that way. Put it in the shared helper or
-error class before dispatching, name that path in every brief, and say not to restate it.
-No brief can fix this after the fact.
-
 When implementation completes, run a final sanity check: tests pass, the diff
-matches the plan, no stray debug code, comment density inside the budget.
+matches the plan, no stray debug code.
 
 **Never pipe a repository-wide test run or a `git commit` through `tail` or `head`.**
 On a large repo the useful lines are in the middle: the failing package's block sits
