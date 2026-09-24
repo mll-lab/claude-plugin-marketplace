@@ -183,6 +183,14 @@ The cheapest fix in an audit is moving a line to the right file:
 | Personal preference, this repo | `./CLAUDE.local.md` (gitignored) |
 | True across all your projects | `~/.claude/CLAUDE.md` |
 | Only about one package | that package's `CLAUDE.md` |
+| Needed by tooling that reads `AGENTS.md` | the nearest `AGENTS.md` covering the code it is about |
+
+**Scope follows the code, at whatever depth the file sits** - every row above means the file
+whose directory covers what the line is about, not the one at the repo root.
 
 A personal preference in a committed root file imposes per-turn cost on the whole team. That
 is a `RELOCATE`, and it costs nothing to make.
+
+This table is the same one `/revise-ai-instructions` applies at its Step 4 - the audit moves a
+line to the right file, the command puts a new one there. **Keep the two in sync**; if they
+disagree, this file is the reference.

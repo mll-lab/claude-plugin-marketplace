@@ -71,11 +71,13 @@ Each candidate needs all three, and the order matters:
    rule, CI, or a setting - **not a line here.** Propose the mechanism and its config instead,
    and say plainly that prose would only ask. A `PreToolUse` hook must exit **2** to block;
    any other non-zero exit is a non-blocking error and the call proceeds.
-3. **Derivability.** Can one grep or one file read answer it? Then **drop it** and name the
-   grep. The inverse is the one that earns additions: knowledge that is *expensive* to
-   derive - spread across many files, or absent from the repo entirely (a production
-   constraint, an external system's undocumented behaviour, a rationale that lives only in
-   someone's head).
+3. **Derivability.** Could the model derive this affordably from the code - **a grep, or
+   opening a few files**, which is the skill's threshold and must stay the skill's threshold?
+   Then **drop it** and name the grep. Do not tighten this to "one grep": a fact that takes
+   two or three files to find would then be added here and cut by the next audit. The inverse
+   is the one that earns additions: knowledge that is *expensive* to derive - spread across
+   many files, or absent from the repo entirely (a production constraint, an external
+   system's undocumented behaviour, a rationale that lives only in someone's head).
 
 State the surviving reason for each addition. An addition with no stated reason does not go in.
 
@@ -88,6 +90,10 @@ State the surviving reason for each addition. An addition with no stated reason 
 | True across all your projects | `~/.claude/CLAUDE.md` |
 | Only about one package | that package's `CLAUDE.md` |
 | Needed by tooling that reads `AGENTS.md` | the nearest `AGENTS.md` covering the code it is about - the package's own if there is one, else the root's |
+
+This mirrors the placement table in the skill's
+[references/templates.md](../skills/ai-instructions-improver/references/templates.md), which is
+the reference if the two ever disagree.
 
 **Pick by which agent needs the line, not by which file you found first.** Step 1 discovers
 `AGENTS.md` as well, so a learning can be about tooling that never reads a `CLAUDE.md`. Confirm

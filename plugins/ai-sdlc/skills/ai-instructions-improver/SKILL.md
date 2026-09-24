@@ -133,7 +133,13 @@ repository.
 | Global defaults | `~/.claude/CLAUDE.md` | User-wide, across all projects |
 | Package-specific | `./packages/*/CLAUDE.md` | Module-level context in monorepos |
 | Subdirectory | any nested location | Feature or domain-specific context |
-| Other agents | `./AGENTS.md` | Standing instructions for non-Claude tooling |
+| Other agents | `AGENTS.md` at any level | Standing instructions for non-Claude tooling |
+
+> The discovery command and this table are adapted from
+> `claude-md-management:claude-md-improver`
+> (<https://github.com/anthropics/claude-plugins-official/tree/main/plugins/claude-md-management>,
+> Apache License 2.0 © Anthropic), with the local-scope filename corrected to
+> `CLAUDE.local.md` and `AGENTS.md` added.
 
 `AGENTS.md` earns one extra check before you cut from it: confirm something in this repo
 actually reads it. If nothing does, the whole file is dead weight and that is the finding -
@@ -200,14 +206,14 @@ it, and there is no point naming a grep for a line that should not exist either 
 **Always output the report before making any change.**
 
 ```
-## CLAUDE.md Audit
+## AI instructions audit
 
 ### Summary
 - Files audited: X
 - Lines: X kept · X cut · X moved to enforcement · X relocated · X rewritten · X gaps found
 - Estimated reduction: X lines (X%)
 
-### ./CLAUDE.md
+### <the audited file's actual path, e.g. ./packages/api/CLAUDE.md or ./AGENTS.md>
 **Score: XX/100 (Grade: X)**
 
 | Axis | Score | Notes |
@@ -235,6 +241,10 @@ it, and there is no point naming a grep for a line that should not exist either 
 #### Gaps - expensive knowledge that should be here
 [each with why deriving it is not affordable]
 ```
+
+**The per-file block repeats, headed by each file's real path** - one score and one verdict
+table per audited file, never merged. Duplication across levels is a finding, and the user
+cannot see it if two files share a heading.
 
 See [references/quality-criteria.md](references/quality-criteria.md) for the scoring bands
 behind each axis.
