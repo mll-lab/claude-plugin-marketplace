@@ -88,11 +88,10 @@ verification steps.
 Output: a saved implementation plan. Briefly report the task count and the files it
 expects to touch - this feeds the complexity decision next.
 
-If the repository has a comment rule, copy it into the plan's `## Global Constraints`.
-Implementers then treat it as a requirement, and the task reviewer checks it as a spec
-item, so a breach enters the fix loop. A breach elsewhere is at most a Minor, which the
-loop never fixes. Prose only nudges density; a repository that needs the rule enforced
-should add comment-ratio hooks, which also fire inside subagents.
+Make sure the plan's `## Global Constraints` states the repository's comment rule as one
+line. Implementers and task reviewers then treat it as a task requirement, not as
+background from `CLAUDE.md`. If the repository has no hook that measures comment
+density, warn the user in your plan report that the rule is not enforced.
 
 ## Stage 4 - Implementation
 
