@@ -117,7 +117,7 @@ parent `CLAUDE.md` composes with this one, so a duplicate is pure cost.
 ```
 ## Proposed additions from this session
 
-### ./CLAUDE.md
+### <the destination file's actual path, e.g. ./packages/api/CLAUDE.md or ./AGENTS.md>
 **Why:** [which test's inverse earns it, in one line]
 + [the line, one concept, as short as it can be while staying unambiguous]
 
@@ -132,6 +132,11 @@ parent `CLAUDE.md` composes with this one, so a duplicate is pure cost.
 ### Redaction
 [what was generalised, or "nothing sensitive in scope"]
 ```
+
+**One section per destination file, headed by its real path** - repeat it as many times as
+there are targets, and never merge two files' additions under one heading. Step 4 can route a
+single session's learnings to a package `CLAUDE.md`, a root `AGENTS.md`, and `~/.claude/CLAUDE.md`
+at once, and the user is approving *where* each line lands as much as what it says.
 
 Show the dropped candidates too. They are evidence you applied the gate rather than
 transcribing the session, and they let the user overrule a specific call.
