@@ -1,13 +1,19 @@
 ---
-name: claude-md-audit
-description: Use when auditing, reviewing, shrinking, or tightening a CLAUDE.md, CLAUDE.local.md, or ~/.claude/CLAUDE.md - including when one has grown long, repetitive, or stale, when sessions seem to ignore what it says, or when deciding whether a rule belongs in CLAUDE.md at all. This is a subtractive audit: it treats every line as context budget spent on every turn, scores the file against fixed axes, gives every line an explicit verdict (keep / cut / move to enforcement / relocate / rewrite), and always reports before changing anything. Prefer it over a general CLAUDE.md improver when the goal is a shorter, higher-signal file rather than a more thoroughly documented one.
+name: ai-instructions-improver
+description: Use when auditing, reviewing, improving, fixing, checking, updating, shrinking, or tightening a project's AI instruction files - CLAUDE.md, CLAUDE.local.md, ~/.claude/CLAUDE.md, AGENTS.md - including when one has grown long, repetitive, or stale, when sessions seem to ignore what it says, when deciding whether a rule belongs in one at all, or when the user mentions CLAUDE.md maintenance or project memory optimization. This is a subtractive audit: it treats every line as context budget spent on every turn, scores the file against fixed axes, gives every line an explicit verdict (keep / cut / move to enforcement / relocate / rewrite), and always reports before changing anything.
 allowed-tools: Read, Glob, Grep, Bash, Edit, Write
 ---
 
-# CLAUDE.md audit
+# AI instructions improver
 
-**This skill can write to CLAUDE.md files** - but only after presenting a report and getting
+**This skill can write to instruction files** - but only after presenting a report and getting
 explicit approval. Never edit before the report.
+
+**Which files this covers.** Anything loaded into context on every turn as standing
+instructions: `CLAUDE.md` at any level, `CLAUDE.local.md`, `~/.claude/CLAUDE.md`, and
+`AGENTS.md` where a repo uses one. The whole argument below rests on *always-loaded* rather
+than on a filename, so it applies unchanged to each of them. A README is not in scope - it
+costs a reader once, when they choose to open it.
 
 ## Why this is subtractive
 
@@ -114,7 +120,7 @@ audit still produces additions. Every `GAP` you report comes from here.
 ### Phase 1 - Discovery
 
 ```bash
-find . -name "CLAUDE.md" -o -name "CLAUDE.local.md" 2>/dev/null | head -50
+find . -name "CLAUDE.md" -o -name "CLAUDE.local.md" -o -name "AGENTS.md" 2>/dev/null | head -50
 ```
 
 Also check `~/.claude/CLAUDE.md` when the audit is about the user's own setup rather than one
@@ -127,6 +133,17 @@ repository.
 | Global defaults | `~/.claude/CLAUDE.md` | User-wide, across all projects |
 | Package-specific | `./packages/*/CLAUDE.md` | Module-level context in monorepos |
 | Subdirectory | any nested location | Feature or domain-specific context |
+| Other agents | `AGENTS.md` at any level | Standing instructions for non-Claude tooling |
+
+> The discovery command and this table are adapted from
+> `claude-md-management:claude-md-improver`
+> (<https://github.com/anthropics/claude-plugins-official/tree/main/plugins/claude-md-management>,
+> Apache License 2.0 © Anthropic), with the local-scope filename corrected to
+> `CLAUDE.local.md` and `AGENTS.md` added.
+
+`AGENTS.md` earns one extra check before you cut from it: confirm something in this repo
+actually reads it. If nothing does, the whole file is dead weight and that is the finding -
+do not triage it line by line.
 
 Claude auto-discovers CLAUDE.md files in parent directories, so monorepo setups compose
 automatically - which means **duplication across levels is a real finding**. A line in a
@@ -189,14 +206,14 @@ it, and there is no point naming a grep for a line that should not exist either 
 **Always output the report before making any change.**
 
 ```
-## CLAUDE.md Audit
+## AI instructions audit
 
 ### Summary
 - Files audited: X
 - Lines: X kept · X cut · X moved to enforcement · X relocated · X rewritten · X gaps found
 - Estimated reduction: X lines (X%)
 
-### ./CLAUDE.md
+### <the audited file's actual path, e.g. ./packages/api/CLAUDE.md or ./AGENTS.md>
 **Score: XX/100 (Grade: X)**
 
 | Axis | Score | Notes |
@@ -224,6 +241,10 @@ it, and there is no point naming a grep for a line that should not exist either 
 #### Gaps - expensive knowledge that should be here
 [each with why deriving it is not affordable]
 ```
+
+**The per-file block repeats, headed by each file's real path** - one score and one verdict
+table per audited file, never merged. Duplication across levels is a finding, and the user
+cannot see it if two files share a heading.
 
 See [references/quality-criteria.md](references/quality-criteria.md) for the scoring bands
 behind each axis.
