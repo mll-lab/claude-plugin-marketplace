@@ -88,6 +88,11 @@ verification steps.
 Output: a saved implementation plan. Briefly report the task count and the files it
 expects to touch - this feeds the complexity decision next.
 
+Make sure the plan's `## Global Constraints` states the repository's comment rule as one
+line. Implementers and task reviewers then treat it as a task requirement, not as
+background from `CLAUDE.md`. If the repository has no hook that measures comment
+density, warn the user in your plan report that the rule is not enforced.
+
 ## Stage 4 - Implementation
 
 Decide the execution mode from the plan's complexity:
