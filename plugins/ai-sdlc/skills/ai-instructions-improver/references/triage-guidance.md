@@ -1,9 +1,13 @@
 # Triage guidance — worked examples
 
-What earns a permanent place in context, and what does not. Adapted from
-`claude-md-management:claude-md-improver`'s update guidelines, re-aimed around the three
-tests: several of its original "what to add" examples are things test 3 now cuts, and are
-corrected here.
+What earns a permanent place in context, and what does not.
+
+> Adapted from `claude-md-management:claude-md-improver`'s update guidelines
+> (<https://github.com/anthropics/claude-plugins-official/tree/main/plugins/claude-md-management>,
+> Apache License 2.0 © Anthropic — see
+> <https://github.com/anthropics/claude-plugins-official/blob/main/plugins/claude-md-management/LICENSE>),
+> re-aimed around the three tests: several of its original "what to add" examples are things
+> test 3 now cuts, and are corrected here.
 
 **The core principle is unchanged and worth restating:** the context window is precious, and
 every line must earn its place. What changed is the standard of proof.
