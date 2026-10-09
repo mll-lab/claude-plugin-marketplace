@@ -106,6 +106,37 @@ Decide the execution mode from the plan's complexity:
 State which mode you chose and the one-line reason. If it is a borderline call,
 ask before starting. Let the chosen superpowers skill drive TDD and per-task review.
 
+### Subagent model per task
+
+Choose the model for each implementer and each per-task reviewer when you dispatch
+it, from what that one task touches. Opus costs several times more per run than
+Sonnet, and on routine tasks it does not deliver more. Unmanaged, the per-task
+Opus subagents were most of the pipeline's cost.
+
+- **Haiku** - implementer only, for purely mechanical tasks where the plan already
+  gives the exact change: a rename, a copy or prompt-text edit, a one-line config
+  value. Review a Haiku task with Sonnet.
+- **Sonnet** - the default for implementers and reviewers: a small diff in one
+  module that follows an existing pattern.
+- **Opus** - when the task touches any of:
+  - concurrency, async ordering, retries, or timeouts
+  - authentication, authorization, IAM, or secrets
+  - data or schema migrations, or anything that deletes or rewrites stored data
+  - a contract between services or packages (API shape, event schema, shared types)
+  - a new abstraction, or a diff across several modules
+  - a task whose previous review round found a real bug
+
+Always use **Opus** for the final whole-branch review. It catches what the
+per-task reviews miss.
+
+If an implementer reports BLOCKED, or its task fails review twice, re-dispatch the
+task one model up. Do not pick Opus "to be safe": if no Opus item applies, use
+Sonnet.
+
+Put the model and a short reason in the dispatch description, for example
+`Implement Task 3 [haiku: rename]` or `Review Task 7 [opus: IAM policy]`. The
+split then stays visible in transcripts and cost reports.
+
 When implementation completes, run a final sanity check: tests pass, the diff
 matches the plan, no stray debug code.
 

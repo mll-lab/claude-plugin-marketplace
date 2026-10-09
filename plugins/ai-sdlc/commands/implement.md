@@ -16,6 +16,8 @@ Run Stage 4 of the `ai-sdlc:feature-pipeline` skill:
    State the chosen mode and the one-line reason. If `auto` and it's borderline, ask
    before starting.
 2. Run the chosen superpowers skill, letting it drive TDD and per-task review.
+   Choose each implementer's and reviewer's model per task, as Stage 4 "Subagent
+   model per task" sets out.
 3. On completion, sanity-check: tests pass, the diff matches the plan, no stray
    debug code. Honor the conventions of the current repository, e.g. coding style,
    architecture patterns, and testing practices.
